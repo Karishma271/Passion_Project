@@ -1,0 +1,24 @@
+﻿@model Passion_Project.Models.ClassDto
+@{
+    ViewBag.Title = "DeleteClass";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col">
+            <h2 class="text-center">Are you sure you want to delete the Class <strong>@Model.ClassName</strong> from the Studio <strong>@Model.StudioName</strong>?</h2>
+        </div>
+    </div>
+
+    <form method="post" action="/StudioClass/Delete/@Model.ClassID">
+        @Html.AntiForgeryToken()
+        <div class="mt-3 d-flex align-items-center justify-content-end gap-2">
+            <div>
+                <button type="submit" class="btn btn-danger btn-lg btn-block">Delete</button>
+            </div>
+            <div>
+                <a href="/StudioClass/List" class="btn btn-secondary btn-lg btn-block">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>

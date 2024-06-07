@@ -1,0 +1,28 @@
+﻿@model  Passion_Project.Models.BookingDto
+
+@{
+    ViewBag.Title = "ViewBooking";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col">
+            <h2 class="text-muted">Booking Details</h2>
+        </div>
+        <div class="col-auto">
+            <a href="/StudioBooking/bookingList" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back To Bookings</a>
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title text-muted">Class Reserved by @Model.Username</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>ClassNumber: </strong> @Model.ClassName</li>
+                <li class="list-group-item"><strong>BookingDate: </strong> @Model.BookingDate.ToString("MMMM dd, yyyy") @Model.BookingDate.ToString("HH:mm:ss")</li>
+                <li class="list-group-item"><strong>ClassDate: </strong> @Model.ClassDate.ToString("MMMM dd, yyyy") @Model.ClassDate.ToString("HH:mm:ss")</li>
+                <li class="list-group-item"><strong>Status: </strong>@Model.Status</li>
+            </ul>
+        </div>
+    </div>
+</div>

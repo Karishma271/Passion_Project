@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Passion_Project.Models.ClassDto>
+
+@{
+    ViewBag.Title = "Classs";
+}
+
+<div class="row">
+    <div class="col">
+        <h2>Classs</h2>
+    </div>
+    <div class="col mb-3 d-flex justify-content-end">
+        <a href="/DanceClass/Add" class="btn btn-success">+ Add New Class</a>
+    </div>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Instructor</th>
+            <th>Schedule</th>
+            <th>Duration</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Studio</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var Class in Model)
+        {
+            <tr>
+                <td>@Class.ClassName</td>
+                <td>@Class.Instructor</td>
+                <td>@Class.Schedule</td>
+                <td>@Class.Duration</td>
+                <td>$ @Class.Price</td>
+                <td>@Class.Status</td>
+                <td>@Class.StudioName</td>
+                <td>
+                    <a href="/StudioClass/Details/@Class.ClassID" class="btn btn-primary"><i class="bi bi-eye"></i> View</a>
+                    <a href="/StudioClass/Edit/@Class.ClassID" class="btn btn-warning"><i class="bi bi-pencil"></i> Update</a>
+                    <a href="/StudioClass/DeleteClass/@Class.ClassID" class="btn btn-danger"><i class="bi bi-trash"></i> Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

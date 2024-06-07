@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Passion_Project.Models.BookingDto>
+
+@{
+    ViewBag.Title = "BookingList";
+}
+
+<div class="row">
+    <div class="col">
+        <h2>Bookings</h2>
+    </div>
+    <div class="col mb-3 d-flex justify-content-end">
+        <a href="/
+
+           /Addbooking" class="btn btn-success">+ Add New booking</a>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>
+                Number</th>
+                <th>CheckInDate</th>
+                <th>CheckOutDate</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>@booking.Username</td>
+                    <td>@booking.ClassName</td>
+                    <td>@booking.BookingDate.ToString("MMMM dd, yyyy") <br /> @booking.BookingDate.ToString("HH:mm:ss")</td>
+                    <td>@booking.ClassDate.ToString("MMMM dd, yyyy") <br /> @booking.ClassDate.ToString("HH:mm:ss")</td>
+                    <td>@booking.Status</td>
+                    <td>
+                        <a href="/Studiobooking/Viewbooking/@booking.BookingID" class="btn btn-primary"><i class="bi bi-eye"></i> View</a>
+                        <a href="/Studiobooking/Editbooking/@booking.BookingID" class="btn btn-warning"><i class="bi bi-pencil"></i> Update</a>
+                        <a href="/Studiobooking/Deletebooking/@booking.BookingID" class="btn btn-danger"><i class="bi bi-trash"></i> Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

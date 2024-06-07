@@ -1,0 +1,24 @@
+﻿﻿@model Passion_Project.Models.BookingDto
+
+    @{
+        ViewBag.Title = "DeleteBooking";
+    }
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col">
+                <h2 class="text-center">Are you sure you want to delete the Booking for this class <strong>@Model.ClassName</strong>?</h2>
+            </div>
+        </div>
+
+        <form method="POST" action="/StudioBooking/Delete/@Model.BookingID">
+            <div class="mt-3 d-flex align-items-center justify-content-end gap-2">
+                <div>
+                    <button type="submit" class="btn btn-danger btn-lg btn-block">Delete</button>
+                </div>
+                <div>
+                    <a href="/StudioBooking/BookingList" class="btn btn-secondary btn-lg btn-block">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>

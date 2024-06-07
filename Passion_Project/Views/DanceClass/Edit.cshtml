@@ -1,0 +1,50 @@
+﻿@model Passion_Project.Models.ClassDto
+@{
+    ViewBag.Title = "Update Class";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col">
+            <h2 class="text-muted">Update Class Name: @Model.ClassName of Studio <strong>@Model.StudioName</strong></h2>
+        </div>
+        <div class="col-auto">
+            <a href="/StudioClass/List" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back To Classs</a>
+        </div>
+    </div>
+    <form action="/StudioClass/Update/@Model.ClassID" method="POST">
+        <div class="row">
+            <div class="col mb-3">
+                <label for="ClassNumber" class="form-label">Class Number:</label>
+                <input type="text" class="form-control" id="ClassNumber" name="ClassNumber" value="@Model.ClassNumber" required />
+            </div>
+            <div class="col mb-3">
+                <label for="Type" class="form-label">Type:</label>
+                <select class="form-select" id="Type" name="Type" required>
+                    <option value="Standard" @(Model.Type == "Standard" ? "selected" : "")>Standard</option>
+                    <option value="Deluxe" @(Model.Type == "Deluxe" ? "selected" : "")>Deluxe</option>
+                    <option value="Suite" @(Model.Type == "Suite" ? "selected" : "")>Suite</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mb-3">
+                <label for="Price" class="form-label">Price:</label>
+                <input type="number" class="form-control" id="Price" name="Price" step="0.01" value="@Model.Price" required />
+            </div>
+            <div class="col mb-3">
+                <label for="Status" class="form-label">Status:</label>
+                <select class="form-select" id="Status" name="Status" required>
+                    <option value="Available" @(Model.Status == "Available" ? "selected" : "")>Available</option>
+                    <option value="Occupied" @(Model.Status == "Occupied" ? "selected" : "")>Occupied</option>
+                    <option value="Reserved" @(Model.Status == "Reserved" ? "selected" : "")>Reserved</option>
+                </select>
+            </div>
+        </div>
+        <div>
+            <input type="hidden" class="form-control" id="Class" name="ClassID" value="@Model.ClassID" />
+            <input type="hidden" class="form-control" id="Studio" name="StudioID" value="@Model.StudioID" />
+        </div>
+        <button type="submit" class="btn btn-primary">Update Class</button>
+    </form>
+</div>

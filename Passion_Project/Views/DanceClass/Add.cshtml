@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Passion_Project.Models.StudioDto>
+
+@{
+    ViewBag.Title = "Add Class";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col">
+            <h2 class="text-muted">Add New Class</h2>
+        </div>
+        <div class="col-auto">
+            <a href="/StudioClass/List" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back To Classs</a>
+        </div>
+    </div>
+
+    <form action="/StudioClass/Create" method="POST">
+        <div class="row">
+            <div class="col mb-3">
+                <label for="ClassNumber" class="form-label">Class Number:</label>
+                <input type="text" class="form-control" id="ClassNumber" name="ClassNumber" required />
+            </div>
+            <div class="col mb-3">
+                <label for="Type" class="form-label">Type:</label>
+                <select class="form-select" id="Type" name="Type" required>
+                    <option value="Standard">Standard</option>
+                    <option value="Deluxe">Deluxe</option>
+                    <option value="Suite">Suite</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mb-3">
+                <label for="Price" class="form-label">Price:</label>
+                <input type="number" class="form-control" id="Price" name="Price" step="0.01" required />
+            </div>
+            <div class="col mb-3">
+                <label for="Status" class="form-label">Status:</label>
+                <select class="form-select" id="Status" name="Status" required>
+                    <option value="Available">Available</option>
+                    <option value="Occupied">Occupied</option>
+                    <option value="Reserved">Reserved</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mb-3">
+                <label for="Studio" class="form-label">Studio:</label>
+                <select class="form-select" id="Studio" name="StudioID" required>
+                    @foreach (var Studio in Model)
+                    {
+                        <option value="@Studio.StudioID">@Studio.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Class</button>
+    </form>
+</div>
