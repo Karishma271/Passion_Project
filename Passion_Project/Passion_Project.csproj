@@ -193,17 +193,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202406060226575_InitialCreate.cs" />
-    <Compile Include="Migrations\202406060226575_InitialCreate.Designer.cs">
-      <DependentUpon>202406060226575_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202406060345577_Bookings.cs" />
-    <Compile Include="Migrations\202406060345577_Bookings.Designer.cs">
-      <DependentUpon>202406060345577_Bookings.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202406070335206_Studio_Data.cs" />
-    <Compile Include="Migrations\202406070335206_Studio_Data.Designer.cs">
-      <DependentUpon>202406070335206_Studio_Data.cs</DependentUpon>
+    <Compile Include="Migrations\202406101724583_Initial.cs" />
+    <Compile Include="Migrations\202406101724583_Initial.Designer.cs">
+      <DependentUpon>202406101724583_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -243,6 +235,7 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="json\class.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -307,7 +300,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\DnaceClassUserData\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -337,14 +329,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202406060226575_InitialCreate.resx">
-      <DependentUpon>202406060226575_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202406060345577_Bookings.resx">
-      <DependentUpon>202406060345577_Bookings.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202406070335206_Studio_Data.resx">
-      <DependentUpon>202406070335206_Studio_Data.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202406101724583_Initial.resx">
+      <DependentUpon>202406101724583_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
@@ -365,7 +351,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>58636</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44372/</IISUrl>
+          <IISUrl>https://localhost:44384/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

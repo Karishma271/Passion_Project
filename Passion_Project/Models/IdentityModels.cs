@@ -30,9 +30,9 @@ namespace Passion_Project.Models
             return new ApplicationDbContext();
         }
 
-        public DbSet<Studio> Studios { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Class> Classes { get; set; }
+        public DbSet<Studio> Studio { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<Class> Class { get; set; }
         public DbSet<Bookings> Bookings { get; set; }
 
     }

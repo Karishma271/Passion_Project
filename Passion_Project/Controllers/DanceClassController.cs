@@ -19,7 +19,7 @@ namespace Passion_Project.Controllers
         static DanceClassController()
         {
             client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:44348/api/");
+            client.BaseAddress = new Uri("https://localhost:44384/api/");
         }
 
 
@@ -28,7 +28,7 @@ namespace Passion_Project.Controllers
         public ActionResult List()
         {
             // objective: communicate with our class data api to retrieve a list of classs
-            // curl https://localhost:44348/api/classdata/listclasses
+            // curl https://localhost:44384/api/classdata/listclasses
 
             string url = "classdata/listclasses";
             HttpResponseMessage response = client.GetAsync(url).Result;
@@ -43,7 +43,7 @@ namespace Passion_Project.Controllers
         public ActionResult Details(int id)
         {
             // objective: communicate with our class data api to retrieve one class
-            // curl https://localhost:44348/api/classdata/findclass/{id}
+            // curl https://localhost:44384/api/danceclassdata/findclass/{id}
 
             string url = "classdata/findclass/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
@@ -71,7 +71,7 @@ namespace Passion_Project.Controllers
         public ActionResult Add()
         {
             // objective: communicate with our Studio data api to retrieve a list of studios
-            // curl https://localhost:44348/api/studiodata/liststudios
+            // curl https://localhost:44384/api/studiodata/liststudios
 
             string url = "studiodata/liststudios";
 
@@ -87,10 +87,10 @@ namespace Passion_Project.Controllers
         public ActionResult Create(Class Class)
         {
             Debug.WriteLine("the class json load is : ");
-            // Debug.WriteLine(class.classNumber);
+            // Debug.WriteLine(class.className);
 
             // objective: add a new class into our system using the API
-            // curl -H "Content-Type:application/json" -d @class.json https://localhost:44348/api/classData/addclass
+            // curl -H "Content-Type:application/json" -d @class.json https://localhost:44384/api/danceclassData/add
 
             string url = "classdata/addclass";
             string jsonpayload = jss.Serialize(Class);
@@ -118,7 +118,7 @@ namespace Passion_Project.Controllers
             // Get Particular class information
 
             // objective: communicate with our class data api to retrieve one class
-            // curl https://localhost:44348/api/classdata/findclass/{id}
+            // curl https://localhost:44384/api/danceclassdata/findclass/{id}
 
             string url = "classdata/findclass/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
@@ -146,10 +146,10 @@ namespace Passion_Project.Controllers
 
                 // serialize update classdata into JSON
                 // Send the request to the API
-                // POST: api/classData/Updateclass/{id}
+                // POST: api/danceclassData/Updateclass/{id}
                 // Header : Content-Type: application/json
 
-                string url = "classdata/updateclass/" + id;
+                string url = "danceclassdata/updateclass/" + id;
                 string jsonpayload = jss.Serialize(classes);
                 Debug.WriteLine(jsonpayload);
 
@@ -172,7 +172,7 @@ namespace Passion_Project.Controllers
             // Get Particular class information
 
             // objective: communicate with our class data api to retrieve one class
-            // curl https://localhost:44348/api/classdata/findclass/{id}
+            // curl https://localhost:44384/api/danceclassdata/findclass/{id}
 
             string url = "classdata/findclass/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
@@ -182,13 +182,13 @@ namespace Passion_Project.Controllers
             return View(selectClass);
         }
 
-        // POST: Studioclass/Delete/2
+        // POST: Danceclass/Delete/2
         [HttpPost]
         public ActionResult Delete(int id)
         {
             try
             {
-                string url = "classdata/deleteclass/" + id;
+                string url = "danceclassdata/deleteclass/" + id;
                 HttpContent content = new StringContent("");
                 content.Headers.ContentType.MediaType = "application/json";
                 HttpResponseMessage response = client.PostAsync(url, content).Result;

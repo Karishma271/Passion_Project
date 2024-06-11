@@ -17,7 +17,7 @@ namespace Passion_Project.Controllers
         [Route("api/StudioData/ListStudios")]
         public IEnumerable<StudioDto> ListStudios()
         {
-            List<Studio> Studios = db.Studios.ToList();
+            List<Studio> Studios = db.Studio.ToList();
             List<StudioDto> StudioDtos = new List<StudioDto>();
 
             Studios.ForEach(Studio => StudioDtos.Add(new StudioDto()

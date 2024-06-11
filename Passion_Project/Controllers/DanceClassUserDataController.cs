@@ -28,7 +28,7 @@ namespace Passion_Project.Controllers
         [Route("api/UserData/ListUsers")]
         public IEnumerable<UserDto> ListUsers()
         {
-            List<User> Users = db.Users.ToList();
+            List<User> Users = db.User.ToList();
             List<UserDto> UserDtos = new List<UserDto>();
 
             Users.ForEach(user => UserDtos.Add(new UserDto()
@@ -56,7 +56,7 @@ namespace Passion_Project.Controllers
         [Route("api/UserData/FindUser/{userId}")]
         public IHttpActionResult FindUser(int userId)
         {
-            User user = db.Users.Find(userId);
+            User user = db.User.Find(userId);
             UserDto userDto = new UserDto()
             {
                 UserID = user.UserID,
@@ -91,7 +91,7 @@ namespace Passion_Project.Controllers
             {
                 return BadRequest(ModelState);
             }
-            db.Users.Add(user);
+            db.User.Add(user);
             db.SaveChanges();
 
             return Ok();
@@ -161,12 +161,12 @@ namespace Passion_Project.Controllers
         [Route("api/UserData/DeleteUser/{id}")]
         public IHttpActionResult DeleteUser(int id)
         {
-            User user = db.Users.Find(id);
+            User user = db.User.Find(id);
             if (user == null)
             {
                 return NotFound();
             }
-            db.Users.Remove(user);
+            db.User.Remove(user);
             db.SaveChanges();
 
             return Ok();
@@ -175,7 +175,7 @@ namespace Passion_Project.Controllers
         // Check Is User Already Exists and Return Boolean Value Either True Or False
         private bool UserExists(int id)
         {
-            return db.Users.Count(e => e.UserID == id) > 0;
+            return db.User.Count(e => e.UserID == id) > 0;
         }
     }
 }

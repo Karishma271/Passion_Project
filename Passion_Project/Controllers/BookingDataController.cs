@@ -1,12 +1,10 @@
 ﻿using Passion_Project.Models;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 
@@ -35,10 +33,10 @@ namespace Passion_Project.Controllers
             Bookings.ForEach(r => BookingDtos.Add(new BookingDto()
             {
                 BookingID = r.BookingID,
-                UserID = r.Users.UserID,
-                Username = r.Users.Username,
-                ClassID = r.Classes.ClassID,
-                ClassName = r.Classes.ClassName,
+                UserID = r.User.UserID,
+                Username = r.User.Username,
+                ClassID = r.Class.ClassID,
+                ClassName = r.Class.ClassName,
                 BookingDate = r.BookingDate,
                 ClassDate = r.ClassDate,
                 Status = r.Status
@@ -65,10 +63,10 @@ namespace Passion_Project.Controllers
             BookingDto bookingDto = new BookingDto()
             {
                 BookingID = res.BookingID,
-                UserID = res.Users.UserID,
-                Username = res.Users.Username,
-                ClassID = res.Classes.ClassID,
-                ClassName = res.Classes.ClassName,
+                UserID = res.User.UserID,
+                Username = res.User.Username,
+                ClassID = res.Class.ClassID,
+                ClassName = res.Class.ClassName,
                 BookingDate = res.BookingDate,
                 ClassDate = res.ClassDate,
                 Status = res.Status

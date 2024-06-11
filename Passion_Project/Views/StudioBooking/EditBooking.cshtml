@@ -10,15 +10,15 @@
             <h2 class="text-muted">Edit Booking</h2>
         </div>
         <div class="col-auto">
-            <a href="/HotelBooking/BookingList" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back To Bookings</a>
+            <a href="/StudioBooking/BookingList" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back To Bookings</a>
         </div>
     </div>
 
-    <form action="/HotelBooking/UpdateBooking/@Model.BookingID" method="POST">
+    <form action="/StudioBooking/UpdateBooking/@Model.BookingID" method="POST">
         <div class="row">
             <div class="col mb-3">
-                <label for="ClassNum" class="form-label">Class:</label>
-                <input type="text" class="form-control" id="ClassNum" name="ClassNum" value="@Model.ClassName" disabled />
+                <label for="ClassName" class="form-label">Class:</label>
+                <input type="text" class="form-control" id="ClassName" name="ClassName" value="@Model.ClassName" disabled />
             </div>
             <div class="col mb-3">
                 <label for="UserName" class="form-label">User:</label>

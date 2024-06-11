@@ -26,10 +26,10 @@ namespace Passion_Project.Controllers
         /// </returns>
         // GET: api/classData/Listclasss
         [HttpGet]
-        [Route("api/ClassData/ListClasses")]
+        [Route("api/DanceClassData/ListClasses")]
         public IEnumerable<ClassDto> ListClasses()
         {
-            List<Class> Classes = db.Classes.ToList();
+            List<Class> Classes = db.Class.ToList();
             List<ClassDto> ClassDtos = new List<ClassDto>();
 
             Classes.ForEach(classes => ClassDtos.Add(new ClassDto()
@@ -57,10 +57,10 @@ namespace Passion_Project.Controllers
         // GET: api/classData/Findclass/2
         [ResponseType(typeof(Class))]
         [HttpGet]
-        [Route("api/ClassData/FindClass/{classId}")]
+        [Route("api/DanceClassData/FindClass/{classId}")]
         public IHttpActionResult FindClass(int classId)
         {
-            Class classes = db.Classes.Find(classId);
+            Class classes = db.Class.Find(classId);
             ClassDto classDto = new ClassDto()
             {
                 ClassID = classes.ClassID,
@@ -87,17 +87,17 @@ namespace Passion_Project.Controllers
         /// <returns>
         /// HEADER: 200 (OK) if the class is added successfully.
         /// </returns>
-        // POST: api/classData/Addclass
+        // POST: api/danceclassData/Addclass
         [ResponseType(typeof(Class))]
         [HttpPost]
-        [Route("api/ClassData/AddClass")]
+        [Route("api/DanceClassData/AddClass")]
         public IHttpActionResult AddClass(Class classes)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            db.Classes.Add(classes);
+            db.Class.Add(classes);
             db.SaveChanges();
 
             return Ok();
@@ -111,14 +111,15 @@ namespace Passion_Project.Controllers
         /// <returns>
         /// HEADER: 204 (No Content) if the class is updated successfully.
         /// </returns>
-        // POST: api/classData/Updateclass/2
+        // POST: api/danceclassData/Updateclass/2
         [ResponseType(typeof(Class))]
         [HttpPost]
-        [Route("api/ClassData/UpdateClass/{id}")]
+        [Route("api/DanceClassData/UpdateClass/{id}")]
         public IHttpActionResult Updateclass(int id, Class classes)
         {
             Debug.WriteLine("Check!! Is It Reached to the update method or not!!");
-            // curl -H "Content-Type:application/json" -d @class.json https://localhost:44348/api/classData/updateclass/6
+            // curl -H "Content-Type:application/json" -d @class.json https://localhost:
+            // /api/classData/updateclass/6
             if (!ModelState.IsValid)
             {
                 Debug.WriteLine("State is not valid for this Model");
@@ -169,18 +170,18 @@ namespace Passion_Project.Controllers
         /// HEADER: 200 (OK) if the class is deleted successfully.
         /// HEADER: 404 (Not Found) if the class with the given ID is not found.
         /// </returns>
-        // POST: api/classData/Deleteclass/2
+        // POST: api/danceclassData/Deleteclass/2
         [ResponseType(typeof(Class))]
         [HttpPost]
-        [Route("api/ClassData/DeleteClass/{id}")]
+        [Route("api/DanceClassData/DeleteClass/{id}")]
         public IHttpActionResult Deleteclass(int id)
         {
-            Class classes = db.Classes.Find(id);
+            Class classes = db.Class.Find(id);
             if (classes == null)
             {
                 return NotFound();
             }
-            db.Classes.Remove(classes);
+            db.Class.Remove(classes);
             db.SaveChanges();
 
             return Ok();
@@ -189,7 +190,7 @@ namespace Passion_Project.Controllers
         // Check Is class Already Exists and return boolean value either true or false
         private bool ClassExists(int id)
         {
-            return db.Classes.Count(e => e.ClassID == id) > 0;
+            return db.Class.Count(e => e.ClassID == id) > 0;
         }
     }
 }

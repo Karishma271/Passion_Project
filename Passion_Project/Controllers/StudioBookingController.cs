@@ -19,7 +19,7 @@ namespace Passion_Project.Controllers
         static StudioBookingController()
         {
             client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:44348/api/");
+            client.BaseAddress = new Uri("https://localhost:44384/api/");
         }
 
         // GET:
@@ -28,9 +28,9 @@ namespace Passion_Project.Controllers
         public ActionResult BookingList()
         {
             // objective: communicate with our booking data api to retrieve a list of bookings
-            // curl https://localhost:44348/api/studiodata/listbookings
+            // curl https://localhost:44384/api/BookingData/ListBookings
 
-            string url = "studiodata/listbookings";
+            string url = "BookingData/ListBookings";
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             IEnumerable<BookingDto> bookings = response.Content.ReadAsAsync<IEnumerable<BookingDto>>().Result;
@@ -42,7 +42,7 @@ namespace Passion_Project.Controllers
         public ActionResult Viewbooking(int id)
         {
             // objective: communicate with our booking data api to retrieve one booking
-            // curl https://localhost:44348/api/studiodata/findbooking/{id}
+            // curl https://localhost:44384/api/studiodata/findbooking/{id}
 
             string url = "bookingdata/findbooking/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
@@ -64,7 +64,7 @@ namespace Passion_Project.Controllers
         public ActionResult AddBooking()
         {
             // objective: communicate with our class data api to retrieve a list of classs
-            // curl https://localhost:44348/api/classdata/listclasses
+            // curl https://localhost:44384/api/classdata/listclasses
 
             string url = "classdata/listclasses";
             HttpResponseMessage response = client.GetAsync(url).Result;
@@ -72,7 +72,7 @@ namespace Passion_Project.Controllers
             IEnumerable<ClassDto> classes = response.Content.ReadAsAsync<IEnumerable<ClassDto>>().Result;
 
             // objective: communicate with our user data api to retrieve a list of users
-            // curl https://localhost:44348/api/userdata/listusers
+            // curl https://localhost:44384/api/userdata/listusers
 
             string urlUser = "userdata/listusers";
             HttpResponseMessage responseUser = client.GetAsync(urlUser).Result;
@@ -115,7 +115,7 @@ namespace Passion_Project.Controllers
         public ActionResult EditBooking(int id)
         {
             // objective: communicate with our booking data api to retrieve one booking
-            // curl https://localhost:44348/api/studiodata/findbooking/{id}
+            // curl https://localhost:44384/api/studiodata/findbooking/{id}
 
             string url = "bookingdata/findbooking/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
@@ -165,7 +165,7 @@ namespace Passion_Project.Controllers
             // Get Particular booking information
 
             // objective: communicate with our booking data api to retrieve one booking
-            // curl https://localhost:44348/api/studiodata/findbooking/{id}
+            // curl https://localhost:44384/api/studiodata/findbooking/{id}
 
             string url = "bookingdata/findbooking/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;

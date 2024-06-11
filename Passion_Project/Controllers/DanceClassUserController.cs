@@ -19,14 +19,14 @@ namespace Passion_Project.Controllers
             static DanceClassUserController()
             {
                 client = new HttpClient();
-                client.BaseAddress = new Uri("https://localhost:44348/api/");
+                client.BaseAddress = new Uri("https://localhost:/api/");
             }
 
             // GET: StudioUser/UserList
             public ActionResult UserList()
             {
                 // objective: communicate with our user data api to retrieve a list of users
-                // curl https://localhost:44348/api/userdata/listusers
+                // curl https://localhost:44384/api/userdata/listusers
 
                 string url = "userdata/listusers";
                 HttpResponseMessage responseMessage = client.GetAsync(url).Result;
@@ -40,7 +40,7 @@ namespace Passion_Project.Controllers
             public ActionResult ViewUser(int id)
             {
                 // objective: communicate with our user data api to retrieve one user
-                // curl https://localhost:44348/api/userdata/finduser/{id}
+                // curl https://localhost:44384/api/userdata/finduser/{id}
 
                 string url = "userdata/finduser/" + id;
                 HttpResponseMessage response = client.GetAsync(url).Result;
@@ -58,13 +58,13 @@ namespace Passion_Project.Controllers
                 return View();
             }
 
-            // GET: StudioUser/AddUser
+            // GET: DanceClassUser/AddUser
             public ActionResult AddUser()
             {
                 return View();
             }
 
-            // POST: StudioUser/CreateUser
+            // POST: DanceClassUser/CreateUser
             [HttpPost]
             public ActionResult CreateUser(User user)
             {
@@ -87,11 +87,11 @@ namespace Passion_Project.Controllers
                 }
             }
 
-            // GET: StudioUser/EditUser/2
+            // GET: DanceClassUser/EditUser/2
             public ActionResult EditUser(int id)
             {
                 // objective: communicate with our user data api to retrieve one user
-                // curl https://localhost:44348/api/userdata/finduser/{id}
+                // curl https://localhost:44384/api/userdata/finduser/{id}
 
                 string url = "userdata/finduser/" + id;
                 HttpResponseMessage response = client.GetAsync(url).Result;
@@ -101,7 +101,7 @@ namespace Passion_Project.Controllers
                 return View(selectUser);
             }
 
-            // POST: StudioUser/UpdateUser/2
+            // POST: DanceClassUser/UpdateUser/2
             [HttpPost]
             public ActionResult UpdateUser(int id, User user)
             {
@@ -134,13 +134,13 @@ namespace Passion_Project.Controllers
                 }
             }
 
-            // GET: StudioUser/DeleteUser/2
+            // GET: DanceClassUser/DeleteUser/2
             public ActionResult DeleteUser(int id)
             {
                 // Get Particular User information
 
                 // objective: communicate with our user data api to retrieve one user
-                // curl https://localhost:44348/api/userdata/finduser/{id}
+                // curl https://localhost:44384/api/userdata/finduser/{id}
 
                 string url = "userdata/finduser/" + id;
                 HttpResponseMessage response = client.GetAsync(url).Result;
@@ -150,7 +150,7 @@ namespace Passion_Project.Controllers
                 return View(selectUser);
             }
 
-            // POST: StudioUser/Delete/2
+            // POST: DanceClassUser/Delete/2
             [HttpPost]
             public ActionResult Delete(int id)
             {
