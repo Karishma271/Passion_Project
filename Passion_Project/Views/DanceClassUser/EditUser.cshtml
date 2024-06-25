@@ -1,31 +1,110 @@
 ﻿@model Passion_Project.Models.UserDto
+
 @{
     ViewBag.Title = "Edit User";
 }
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col">
-            <h2 class="text-muted">Edit User</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+
+        .edit-container {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #28a745; /* Green color */
+            font-weight: bold;
+        }
+
+        .btn-outline-secondary {
+            color: #28a745; /* Green color */
+            border-color: #28a745; /* Green color */
+            border-radius: 50px;
+            font-weight: bold;
+        }
+
+            .btn-outline-secondary:hover {
+                background-color: #28a745; /* Green color */
+                color: white;
+            }
+
+        .btn-primary {
+            background-color: #6fbbd3; /* Light blue color */
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+        }
+
+            .btn-primary:hover {
+                background-color: #5aa9bc; /* Darker shade on hover */
+            }
+
+        .form-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            border-color: #28a745; /* Green color */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mt-5 edit-container">
+        <div class="row mb-3">
+            <div class="col">
+                <h2 class="text-muted">Edit User</h2>
+            </div>
+            <div class="col-auto">
+                <a href="@Url.Action("UserList", "DanceClassUser")" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Back To Users
+                </a>
+            </div>
         </div>
-        <div class="col-auto">
-            <a href="/DanceClassUser/UserList" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back To Users</a>
-        </div>
+
+        @using (Html.BeginForm("EditUser", "DanceClassUser", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.UserID)
+            @Html.HiddenFor(model => model.Password)
+
+            <div class="row mb-3">
+                <div class="col mb-3">
+                    <label for="Username" class="form-label">Username:</label>
+                    <input type="text" class="form-control" id="Username" name="Username" value="@Model.Username" required>
+                </div>
+                <div class="col mb-3">
+                    <label for="Email" class="form-label">Email:</label>
+                    <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" required>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">Update User</button>
+                </div>
+            </div>
+        }
     </div>
 
-    <form action="/DanceClassUser/UpdateUser/@Model.UserID" method="POST">
-        <input type="hidden" class="form-control" id="UserID" name="UserID" value="@Model.UserID">
-        <input type="hidden" class="form-control" id="Password" name="Password" value="@Model.Password">
-        <div class="row">
-            <div class="col mb-3">
-                <label for="Username" class="form-label">Username:</label>
-                <input type="text" class="form-control" id="Username" name="Username" value="@Model.Username" required>
-            </div>
-            <div class="col mb-3">
-                <label for="Email" class="form-label">Email:</label>
-                <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" required>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Update User</button>
-    </form>
-</div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,9 +1,70 @@
 ﻿@{
     ViewBag.Title = "About";
+    ViewBag.Message = "Learn more about GrooveHub and our mission.";
 }
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
 
-    <p>Use this area to provide additional information.</p>
-</main>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - GrooveHub</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <!-- Bootstrap CSS (for layout, if needed) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Custom styles -->
+    <style>
+        body {
+            background-color: #f5f5f5; /* Light gray background */
+            color: #333; /* Dark text color */
+            font-family: Arial, sans-serif; /* Font family */
+        }
+
+        main {
+            max-width: 800px; /* Limit main content width */
+            margin: 0 auto; /* Center main content horizontally */
+            padding: 20px;
+            background-color: #fff; /* White background */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Shadow for box */
+        }
+
+        h2 {
+            font-size: 2.5rem; /* Large font size for title */
+            color: #ff4081; /* Pink color for title */
+            text-align: center; /* Center-align title */
+            margin-bottom: 20px; /* Space below title */
+        }
+
+        h3 {
+            font-size: 1.8rem; /* Medium font size for message */
+            color: #1976d2; /* Blue color for message */
+            margin-bottom: 10px; /* Space below message */
+        }
+
+        p {
+            font-size: 1.2rem; /* Regular font size */
+            line-height: 1.6; /* Line height */
+            margin-bottom: 20px; /* Space below paragraph */
+        }
+    </style>
+</head>
+<body>
+    <main aria-labelledby="title">
+        <h2 id="title">@ViewBag.Title</h2>
+        <h3>@ViewBag.Message</h3>
+
+        <p>Welcome to GrooveHub! We are passionate about bringing the joy of dance to everyone. At GrooveHub, we offer a wide variety of dance classes that cater to all styles and levels. Whether you're a beginner looking to learn the basics or an experienced dancer seeking to refine your skills, we have something for you.</p>
+
+        <p>Our mission is to create a vibrant community where dance enthusiasts can connect, learn, and grow. We believe that dance is not just a physical activity, but a way to express yourself and connect with others. Our talented instructors are dedicated to providing high-quality training and creating an inclusive, supportive environment for all our students.</p>
+
+        <p>Join us at GrooveHub and experience the joy of dance! We look forward to welcoming you to our community.</p>
+    </main>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>

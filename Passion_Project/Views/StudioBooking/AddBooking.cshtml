@@ -1,67 +1,149 @@
-﻿﻿@model Passion_Project.Models.ViewModels.AddBookingViewModel
+﻿@model Passion_Project.Models.ViewModels.AddBookingViewModel
 
+@{
+    ViewBag.Title = "Add Booking";
+}
 
-    @{
-        ViewBag.Title = "AddBooking";
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+        }
 
-    <div class="container mt-5">
-        <div class="row">
+        .edit-container {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        h2 {
+            color: #ff4081;
+            font-weight: bold;
+        }
+
+        .btn-outline-secondary {
+            color: #ff4081;
+            border-color: #ff4081;
+            border-radius: 50px;
+            font-weight: bold;
+        }
+
+            .btn-outline-secondary:hover {
+                background-color: #ff4081;
+                color: white;
+            }
+
+        .btn-primary {
+            background-color: #6fbbd3;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+        }
+
+            .btn-primary:hover {
+                background-color: #5aa9bc;
+            }
+
+        .form-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-control, .form-select {
+            border-radius: 10px;
+            border-color: #ff4081;
+        }
+
+        .text-danger {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mt-5 edit-container">
+        <div class="row mb-3">
             <div class="col">
-                <h2 class="text-muted">
-                    Add New
-                </h2>
+                <h2 class="text-muted">Add New Booking</h2>
             </div>
             <div class="col-auto">
-                <a href="/Studiobooking/BookingList" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back To bookings</a>
+                <a href="@Url.Action("BookingList", "StudioBooking")" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Back To Bookings
+                </a>
             </div>
         </div>
 
-        <form action="/Studiobooking/Createbooking" method="POST">
-            <div class="row">
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        @using (Html.BeginForm("CreateBooking", "StudioBooking", FormMethod.Post, new { @class = "mt-3" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="row mb-3">
                 <div class="col mb-3">
-                    <label for="
-                       Id" class="form-label">Class:</label>
-                    <select class="form-select" id="classId" name="classId" required>
-                        <option value="">Select class</option>
-                        @foreach (var classes in Model.Classes)
-                        {
-                            <option value="@classes.ClassID">@classes.ClassName</option>
-                        }
-                    </select>
+                    <label for="ClassID" class="form-label">Class:</label>
+                    @Html.DropDownListFor(model => model.ClassID, new SelectList(Model.Classes, "ClassID", "ClassName"), "Select Class", new { @class = "form-control", required = "required" })
+                    @Html.ValidationMessageFor(model => model.ClassID, "", new { @class = "text-danger" })
                 </div>
                 <div class="col mb-3">
-                    <label for="UserId" class="form-label">User:</label>
-                    <select class="form-select" id="UserId" name="UserId" required>
-                        <option value="">Select User</option>
-                        @foreach (var user in Model.Users)
-                        {
-                            <option value="@user.UserID">@user.Username</option>
-                        }
-                    </select>
+                    <label for="UserID" class="form-label">User:</label>
+                    @Html.DropDownListFor(model => model.UserID, new SelectList(Model.Users, "UserID", "Username"), "Select User", new { @class = "form-control", required = "required" })
+                    @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="row">
+
+            <div class="row mb-3">
                 <div class="col mb-3">
-                    <label for="CheckInDate" class="form-label">Check-In Date:</label>
-                    <input type="datetime-local" class="form-control" id="CheckInDate" name="CheckInDate" required />
+                    <label for="BookingDate" class="form-label">Booking Date:</label>
+                    @Html.TextBoxFor(model => model.BookingDate, "{0:yyyy-MM-ddTHH:mm}", new { @class = "form-control", type = "datetime-local", required = "required" })
+                    @Html.ValidationMessageFor(model => model.BookingDate, "", new { @class = "text-danger" })
                 </div>
                 <div class="col mb-3">
-                    <label for="CheckOutDate" class="form-label">Check-Out Date:</label>
-                    <input type="datetime-local" class="form-control" id="CheckOutDate" name="CheckOutDate" required />
+                    <label for="ClassDate" class="form-label">Class Date:</label>
+                    @Html.TextBoxFor(model => model.ClassDate, "{0:yyyy-MM-ddTHH:mm}", new { @class = "form-control", type = "datetime-local", required = "required" })
+                    @Html.ValidationMessageFor(model => model.ClassDate, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="row">
+
+            <div class="row mb-3">
                 <div class="col mb-3">
                     <label for="Status" class="form-label">Status:</label>
-                    <select class="form-select" id="Status" name="Status" required>
-                        <option value="Confirmed">Confirmed</option>
-                        <option value="Pending">Pending</option>
-                        <option value="Canceled">Canceled</option>
-                        <option value="In Progress">In Progress</option>
-                    </select>
+                    @Html.DropDownListFor(model => model.Status, new SelectList(new[]
+                    {
+                        new SelectListItem { Text = "Confirmed", Value = "Confirmed" },
+                        new SelectListItem { Text = "Pending", Value = "Pending" },
+                        new SelectListItem { Text = "Canceled", Value = "Canceled" },
+                        new SelectListItem { Text = "In Progress", Value = "In Progress" }
+                    }, "Value", "Text"), "Select Status", new { @class = "form-control", required = "required" })
+                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Add booking</button>
-        </form>
+
+            <div class="row mb-3">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">Add Reservation</button>
+                </div>
+            </div>
+        }
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

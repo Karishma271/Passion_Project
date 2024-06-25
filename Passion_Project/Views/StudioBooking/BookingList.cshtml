@@ -1,46 +1,195 @@
 ﻿@model IEnumerable<Passion_Project.Models.BookingDto>
 
 @{
-    ViewBag.Title = "BookingList";
+    ViewBag.Title = "Booking List";
 }
 
-<div class="row">
-    <div class="col">
-        <h2>Bookings</h2>
-    </div>
-    <div class="col mb-3 d-flex justify-content-end">
-        <a href="/
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+        }
 
-           /Addbooking" class="btn btn-success">+ Add New booking</a>
-    </div>
+        .content-container {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>User</th>
-                <th>ClassName</th>
-                <th>CheckInDate</th>
-                <th>CheckOutDate</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var booking in Model)
-            {
-                <tr>
-                    <td>@booking.Username</td>
-                    <td>@booking.ClassName</td>
-                    <td>@booking.BookingDate.ToString("MMMM dd, yyyy") <br /> @booking.BookingDate.ToString("HH:mm:ss")</td>
-                    <td>@booking.ClassDate.ToString("MMMM dd, yyyy") <br /> @booking.ClassDate.ToString("HH:mm:ss")</td>
-                    <td>@booking.Status</td>
-                    <td>
-                        <a href="/Studiobooking/Viewbooking/@booking.BookingID" class="btn btn-primary"><i class="bi bi-eye"></i> View</a>
-                        <a href="/Studiobooking/Editbooking/@booking.BookingID" class="btn btn-warning"><i class="bi bi-pencil"></i> Update</a>
-                        <a href="/Studiobooking/Deletebooking/@booking.BookingID" class="btn btn-danger"><i class="bi bi-trash"></i> Delete</a>
-                    </td>
-                </tr>
+        h2 {
+            color: #ff4081;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            transition: background-color 0.3s, transform 0.3s;
+            border-radius: 50px;
+            font-weight: bold;
+        }
+
+            .btn:hover {
+                transform: scale(1.05);
             }
-        </tbody>
-    </table>
-</div>
+
+        .btn-outline-secondary {
+            color: #ff4081;
+            border-color: #ff4081;
+        }
+
+            .btn-outline-secondary:hover {
+                background-color: #ff4081;
+                color: white;
+            }
+
+        .btn-primary {
+            background-color: #42a5f5;
+            border: none;
+        }
+
+            .btn-primary:hover {
+                background-color: #1e88e5;
+            }
+
+        .btn-warning {
+            background-color: #ffca28;
+            border: none;
+        }
+
+            .btn-warning:hover {
+                background-color: #ffa000;
+            }
+
+        .btn-danger {
+            background-color: #ef5350;
+            border: none;
+        }
+
+            .btn-danger:hover {
+                background-color: #e53935;
+            }
+
+        .table th, .table td {
+            vertical-align: middle;
+            text-align: center;
+            border: 1px solid #dee2e6;
+        }
+
+        .table thead {
+            background-color: #ff4081;
+            color: white;
+        }
+
+        .table tbody tr:hover {
+            background-color: #ffecf1;
+        }
+
+        .table tbody td {
+            background-color: #ffffff;
+        }
+
+        .table tbody tr:nth-child(even) td {
+            background-color: #f9f9f9;
+        }
+
+        .bi {
+            margin-right: 5px;
+        }
+            .add-new-class-container
+
+        {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .add-new-class-button {
+            padding: 12px 24px;
+            font-weight: bold;
+            font-size: 16px;
+            border-radius: 50px;
+            background-color: #ff4081; /* pink background */
+            color: white;
+            border: none;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+            .add-new-class-button:hover {
+                background-color: #ff4081; /* pink on hover */
+                transform: scale(1.05);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content-container my-5">
+        <div class="row mb-4">
+            <div class="col">
+                <h2>Bookings</h2>
+            </div>
+            <div class="col mb-3 d-flex justify-content-end">
+                <div class="add-new-class-container">
+                    <a href="@Url.Action("AddBooking", "StudioBooking")"  class="add-new-class-button">+ Make a Booking</a>
+                </div>
+            </div>
+
+        </div>
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Class Name</th>
+                    <th>Booking Date</th>
+                    <th>Class Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var booking in Model)
+                {
+                    <tr>
+                        <td>@booking.Username</td>
+                        <td>@booking.ClassName</td>
+                        <td>
+                            @booking.BookingDate.ToString("MMMM dd, yyyy") <br />
+                            @booking.BookingDate.ToString("HH:mm:ss")
+                        </td>
+                        <td>
+                            @booking.ClassDate.ToString("MMMM dd, yyyy") <br />
+                            @booking.ClassDate.ToString("HH:mm:ss")
+                        </td>
+                        <td>@booking.Status</td>
+                        <td>
+                            <a href="@Url.Action("ViewBooking", "StudioBooking", new { id = booking.BookingID })" class="btn btn-primary">
+                                <i class="bi bi-eye"></i> View
+                            </a>
+                            <a href="@Url.Action("EditBooking", "StudioBooking", new { id = booking.BookingID })" class="btn btn-warning">
+                                <i class="bi bi-pencil"></i> Update
+                            </a>
+                            <a href="@Url.Action("DeleteBooking", "StudioBooking", new { id = booking.BookingID })" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this booking?');">
+                                <i class="bi bi-trash"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

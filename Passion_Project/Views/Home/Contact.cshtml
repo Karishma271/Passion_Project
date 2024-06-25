@@ -1,19 +1,84 @@
 ﻿@{
-    ViewBag.Title = "Contact";
+    ViewBag.Title = "Contact Us"; // Sets the title of the page
 }
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Contact Us</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
 
-    <address>
-        One Microsoft Way<br />
-        Redmond, WA 98052-6399<br />
-        <abbr title="Phone">P:</abbr>
-        425.555.0100
-    </address>
+    <!-- Bootstrap CSS (for layout, if needed) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-    <address>
-        <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-        <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-    </address>
-</main>
+    <!-- Custom styles -->
+    <style>
+        body {
+            background-color: #f5f5f5; /* Light gray background */
+            color: #333; /* Dark text color */
+            font-family: Arial, sans-serif; /* Font family */
+        }
+
+        main {
+            max-width: 800px; /* Limit main content width */
+            margin: 0 auto; /* Center main content horizontally */
+            padding: 20px;
+            background-color: #fff; /* White background */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Shadow for box */
+        }
+
+        h2 {
+            font-size: 2.5rem; /* Large font size for title */
+            color: #ff4081; /* Pink color for title */
+            text-align: center; /* Center-align title */
+            margin-bottom: 20px; /* Space below title */
+        }
+
+        h3 {
+            font-size: 1.8rem; /* Medium font size for message */
+            color: #1976d2; /* Blue color for message */
+            margin-bottom: 10px; /* Space below message */
+        }
+
+        address {
+            margin-bottom: 20px; /* Space below address */
+        }
+
+            address p {
+                margin-bottom: 5px; /* Space below each line in address */
+                line-height: 1.5; /* Line height for address text */
+            }
+
+            address a {
+                color: #4caf50; /* Green color for email link */
+                font-weight: bold; /* Bold text for email link */
+                text-decoration: none; /* Remove underline from link */
+            }
+
+                address a:hover {
+                    text-decoration: underline; /* Underline on hover */
+                }
+    </style>
+</head>
+<body>
+    <main aria-labelledby="title">
+        <h2 id="title">@ViewBag.Title</h2>
+
+        <address>
+            <p>42, Leadership Dr</p>
+            <p>Brampton, L6Y</p>
+            <p><abbr title="Phone">P:</abbr> 444.555.0100</p>
+        </address>
+
+        <address>
+            <strong>Support:</strong> <a href="mailto:karishmapatel@example.com">karishmapatel@example.com</a>
+        </address>
+    </main>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>

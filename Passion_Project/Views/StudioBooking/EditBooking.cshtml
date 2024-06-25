@@ -4,51 +4,138 @@
     ViewBag.Title = "Edit Booking";
 }
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col">
-            <h2 class="text-muted">Edit Booking</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+
+        .edit-container {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #ff4081;
+            font-weight: bold;
+        }
+
+        .btn-outline-secondary {
+            color: #ff4081;
+            border-color: #ff4081;
+            border-radius: 50px;
+            font-weight: bold;
+        }
+
+            .btn-outline-secondary:hover {
+                background-color: #ff4081;
+                color: white;
+            }
+
+        .btn-primary {
+            background-color: #6fbbd3;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+        }
+
+            .btn-primary:hover {
+                background-color: #5aa9bc;
+            }
+
+        .form-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-control, .form-select {
+            border-radius: 10px;
+            border-color: #ff4081;
+        }
+
+        .text-danger {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mt-5 edit-container">
+        <div class="row mb-3">
+            <div class="col">
+                <h2 class="text-muted">Edit Booking</h2>
+            </div>
+            <div class="col-auto">
+                <a href="@Url.Action("BookingList", "StudioBooking")" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Back To Bookings
+                </a>
+            </div>
         </div>
-        <div class="col-auto">
-            <a href="/StudioBooking/BookingList" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back To Bookings</a>
-        </div>
+
+        @using (Html.BeginForm("EditBooking", "StudioBooking", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.BookingID)
+
+            <div class="row mb-3">
+                <div class="col mb-3">
+                    <label for="ClassName" class="form-label">Class:</label>
+                    <input type="text" class="form-control" id="ClassName" name="ClassName" value="@Model.ClassName" disabled />
+                    @Html.HiddenFor(m => m.ClassID)
+                </div>
+                <div class="col mb-3">
+                    <label for="UserName" class="form-label">User:</label>
+                    <input type="text" class="form-control" id="UserName" name="UserName" value="@Model.Username" disabled />
+                    @Html.HiddenFor(m => m.UserID)
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col mb-3">
+                    <label for="BookingDate" class="form-label">Booking Date:</label>
+                    <input type="datetime-local" class="form-control" id="BookingDate" name="BookingDate" value="@Model.BookingDate.ToString("yyyy-MM-ddTHH:mm")" required />
+                    @Html.ValidationMessageFor(m => m.BookingDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="col mb-3">
+                    <label for="ClassDate" class="form-label">Class Date:</label>
+                    <input type="datetime-local" class="form-control" id="ClassDate" name="ClassDate" value="@Model.ClassDate.ToString("yyyy-MM-ddTHH:mm")" required />
+                    @Html.ValidationMessageFor(m => m.ClassDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col mb-3">
+                    <label for="Status" class="form-label">Status:</label>
+                    <select class="form-select" id="Status" name="Status" required>
+                        <option value="Confirmed" @(Model.Status == "Confirmed" ? "selected" : "")>Confirmed</option>
+                        <option value="Pending" @(Model.Status == "Pending" ? "selected" : "")>Pending</option>
+                        <option value="Canceled" @(Model.Status == "Canceled" ? "selected" : "")>Canceled</option>
+                        <option value="In Progress" @(Model.Status == "In Progress" ? "selected" : "")>In Progress</option>
+                    </select>
+                    @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">Update Booking</button>
+                </div>
+            </div>
+        }
     </div>
 
-    <form action="/StudioBooking/UpdateBooking/@Model.BookingID" method="POST">
-        <div class="row">
-            <div class="col mb-3">
-                <label for="ClassName" class="form-label">Class:</label>
-                <input type="text" class="form-control" id="ClassName" name="ClassName" value="@Model.ClassName" disabled />
-            </div>
-            <div class="col mb-3">
-                <label for="UserName" class="form-label">User:</label>
-                <input type="text" class="form-control" id="UserName" name="UserName" value="@Model.Username" disabled />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col mb-3">
-                <label for="CheckInDate" class="form-label">Check-In Date:</label>
-                <input type="datetime-local" class="form-control" id="CheckInDate" name="CheckInDate" value="@Model.BookingDate.ToString("yyyy-MM-ddTHH:mm")" required />
-            </div>
-            <div class="col mb-3">
-                <label for="CheckOutDate" class="form-label">Check-Out Date:</label>
-                <input type="datetime-local" class="form-control" id="CheckOutDate" name="CheckOutDate" value="@Model.ClassDate.ToString("yyyy-MM-ddTHH:mm")" required />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col mb-3">
-                <label for="Status" class="form-label">Status:</label>
-                <select class="form-select" id="Status" name="Status" required>
-                    <option value="Confirmed" @(Model.Status == "Confirmed" ? "selected" : "")>Confirmed</option>
-                    <option value="Pending" @(Model.Status == "Pending" ? "selected" : "")>Pending</option>
-                    <option value="Canceled" @(Model.Status == "Canceled" ? "selected" : "")>Canceled</option>
-                    <option value="In Progress" @(Model.Status == "In Progress" ? "selected" : "")>In Progress</option>
-                </select>
-            </div>
-        </div>
-        <input type="hidden" name="BookingID" value="@Model.BookingID" />
-        <input type="hidden" class="form-control" id="ClassID" name="ClassID" value="@Model.ClassID">
-        <input type="hidden" class="form-control" id="UserID" name="UserID" value="@Model.UserID">
-        <button type="submit" class="btn btn-primary">Update Booking</button>
-    </form>
-</div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

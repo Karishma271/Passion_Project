@@ -1,68 +1,144 @@
 ﻿@model IEnumerable<Passion_Project.Models.StudioDto>
-
 @{
     ViewBag.Title = "Add Class";
 }
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col">
-            <h2 class="text-muted">Add New Class</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f8ff; /* Light blue background */
+            color: #333; /* Dark gray text */
+            padding-top: 20px; /* Add padding to the top of the body */
+        }
+
+        .container {
+            max-width: 800px; /* Limit container width for better readability */
+        }
+
+        h2 {
+            color: #1e88e5; /* Dark blue font color */
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .btn-back {
+            color: #1e88e5; /* Dark blue text */
+            border-color: #1e88e5; /* Dark blue border */
+            border-radius: 50px; /* Rounded button */
+            font-weight: bold;
+        }
+
+            .btn-back:hover {
+                background-color: #1e88e5; /* Dark blue background on hover */
+                color: white; /* White text on hover */
+            }
+
+        .form-label {
+            font-weight: bold; /* Bold form labels */
+            color: #333; /* Dark gray text */
+        }
+
+        .form-control, .form-select {
+            border-radius: 10px; /* Rounded corners for inputs */
+            border-color: #1e88e5; /* Dark blue border */
+        }
+
+            .form-control:focus, .form-select:focus {
+                border-color: #1e88e5; /* Dark blue focus border */
+                box-shadow: 0 0 0 0.2rem rgba(30, 136, 229, 0.25); /* Focus shadow */
+            }
+
+        .btn-submit {
+            background-color: #1e88e5; /* Dark blue background */
+            border: none;
+            border-radius: 50px; /* Rounded button */
+            font-weight: bold;
+        }
+
+            .btn-submit:hover {
+                background-color: #0d47a1; /* Darker blue on hover */
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col">
+                <h2>Add New Class</h2>
+            </div>
+            <div class="col-auto">
+                <a href="/DanceClass/List" class="btn btn-back"><i class="bi bi-arrow-left"></i> Back To Classes</a>
+            </div>
         </div>
-        <div class="col-auto">
-            <a href="/DanceClass/List" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back To Classs</a>
-        </div>
+
+        <form action="/DanceClass/Create" method="POST">
+            @Html.AntiForgeryToken()
+            <div class="form-group row">
+                <label for="ClassName" class="col-sm-2 col-form-label form-label">Class Name:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="ClassName" name="ClassName" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Instructor" class="col-sm-2 col-form-label form-label">Instructor:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="Instructor" name="Instructor" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Schedule" class="col-sm-2 col-form-label form-label">Schedule:</label>
+                <div class="col-sm-10">
+                    <input type="datetime-local" class="form-control" id="Schedule" name="Schedule" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Duration" class="col-sm-2 col-form-label form-label">Duration (in Hours):</label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" id="Duration" name="Duration" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Price" class="col-sm-2 col-form-label form-label">Price:</label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" id="Price" name="Price" step="0.01" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Status" class="col-sm-2 col-form-label form-label">Status:</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="Status" name="Status" required>
+                        <option value="Available">Available</option>
+                        <option value="Occupied">Occupied</option>
+                        <option value="Reserved">Reserved</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="StudioID" class="col-sm-2 col-form-label form-label">Studio:</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="StudioID" name="StudioID" required>
+                        @foreach (var studio in Model)
+                        {
+                            <option value="@studio.StudioID">@studio.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-submit">Add Class</button>
+        </form>
     </div>
 
-    <form action="/DanceClass/Create" method="POST">
-        <div class="row">
-            <div class="col mb-3">
-                <label for="ClassName" class="form-label">Class Name:</label>
-                <input type="text" class="form-control" id="ClassName" name="ClassName" required />
-            </div>
-            <div class="col mb-3">
-                <label for="Type" class="form-label">Type:</label>
-                <select class="form-select" id="Type" name="Type" required>
-                    <option value="Basic">Basic</option>
-                    <option value="Advance">Advance</option>
-                    <option value="Professional">Professional</option>
-                </select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col mb-3">
-                <label for="Type" class="form-label">Schedule:</label>
-                <select class="form-select" id="Type" name="Type" required>
-                    <option value="2024-07-20T10:00:00" >20 July 2024, 10:00AM - 3:00PM</option>
-                    <option value="2024-07-23T10:00:00" >23 July 2024, 10:00AM - 3:00PM</option>
-                    <option value="2024-07-25T10:00:00" >25 July 2024, 10:00AM - 3:00PM</option>
-                </select>
-            </div>
-        </div>
-            <div class="col mb-3">
-                <label for="Price" class="form-label">Price:</label>
-                <input type="Number" class="form-control" id="Price" name="Price" step="0.01" required />
-            </div>
-            <div class="col mb-3">
-                <label for="Status" class="form-label">Status:</label>
-                <select class="form-select" id="Status" name="Status" required>
-                    <option value="Available">Available</option>
-                    <option value="Occupied">Occupied</option>
-                    <option value="Reserved">Reserved</option>
-                </select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col mb-3">
-                <label for="Studio" class="form-label">Studio:</label>
-                <select class="form-select" id="Studio" name="StudioID" required>
-                    @foreach (var Studio in Model)
-                    {
-                        <option value="@Studio.StudioID">@Studio.Name</option>
-                    }
-                </select>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Add Class</button>
-    </form>
-</div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

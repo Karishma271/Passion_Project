@@ -8,11 +8,17 @@ namespace Passion_Project.Models
 {
     public class User
     {
-        // User ID is primary key for User Datatable
         [Key]
         public int UserID { get; set; }
+
+        [Required]
         public string Username { get; set; }
+
+        [Required]
         public string Password { get; set; }
+
+        [Required]
+        [EmailAddress]
         public string Email { get; set; }
     }
 

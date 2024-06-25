@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
@@ -12,201 +12,186 @@ namespace Passion_Project.Controllers
 {
     public class DanceClassController : Controller
     {
-
         private static readonly HttpClient client;
-        private JavaScriptSerializer jss = new JavaScriptSerializer();
+        private readonly JavaScriptSerializer jss = new JavaScriptSerializer();
 
+        // Initialize the HttpClient with base address and headers
         static DanceClassController()
         {
             client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:44384/api/");
+            client.BaseAddress = new Uri("https://localhost:44301/api/");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-
-        // GET:
-        // class/List
-        public ActionResult List()
+        // GET: DanceClass/List
+        public async Task<ActionResult> List()
         {
-            // objective: communicate with our class data api to retrieve a list of classs
-            // curl https://localhost:44384/api/classdata/listclasses
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync("DanceClassData/ListClasses");
+                response.EnsureSuccessStatusCode(); // Throw on error code
 
-            string url = "classdata/listclasses";
-            HttpResponseMessage response = client.GetAsync(url).Result;
-
-            IEnumerable<ClassDto> Classes = response.Content.ReadAsAsync<IEnumerable<ClassDto>>().Result;
-
-            return View(Classes);
+                IEnumerable<ClassDto> classes = await response.Content.ReadAsAsync<IEnumerable<ClassDto>>();
+                return View(classes);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error fetching classes: {ex.Message}");
+                return RedirectToAction("Error");
+            }
         }
 
-
-        // Get: Studioclass/Details/2
-        public ActionResult Details(int id)
+        // GET: DanceClass/Details/5
+        public async Task<ActionResult> Details(int id)
         {
-            // objective: communicate with our class data api to retrieve one class
-            // curl https://localhost:44384/api/danceclassdata/findclass/{id}
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync($"DanceClassData/FindClass/{id}");
+                response.EnsureSuccessStatusCode(); // Throw on error code
 
-            string url = "classdata/findclass/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;
-
-            Debug.WriteLine("The response code is ");
-            Debug.WriteLine(response.StatusCode);
-
-            ClassDto selectClass = response.Content.ReadAsAsync<ClassDto>().Result;
-            Debug.WriteLine("class data retrived : ");
-            Debug.WriteLine(selectClass.ClassName);
-            Debug.WriteLine(selectClass.Instructor);
-            Debug.WriteLine(selectClass.Schedule);
-            Debug.WriteLine(selectClass.Duration);
-            Debug.WriteLine(selectClass.Price);
-            Debug.WriteLine(selectClass.Status);
-            return View(selectClass);
+                ClassDto selectClass = await response.Content.ReadAsAsync<ClassDto>();
+                return View(selectClass);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error fetching class details: {ex.Message}");
+                return RedirectToAction("Error");
+            }
         }
 
+        // GET: DanceClass/Add
+        public async Task<ActionResult> Add()
+        {
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync("studiodata/liststudios");
+                response.EnsureSuccessStatusCode(); // Throw on error code
+
+                IEnumerable<StudioDto> studios = await response.Content.ReadAsAsync<IEnumerable<StudioDto>>();
+                return View(studios);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error fetching studios: {ex.Message}");
+                return RedirectToAction("Error");
+            }
+        }
+
+        // POST: DanceClass/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(ClassDto newClass)
+        {
+            try
+            {
+                string url = "DanceClassData/AddClass";
+                string jsonpayload = jss.Serialize(newClass);
+
+                HttpContent content = new StringContent(jsonpayload, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                response.EnsureSuccessStatusCode(); // Throw on error code
+
+                return RedirectToAction("List");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error creating class: {ex.Message}");
+                return RedirectToAction("Error");
+            }
+        }
+
+        // GET: DanceClass/Edit/5
+        public async Task<ActionResult> Edit(int id)
+        {
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync($"DanceClassData/FindClass/{id}");
+                response.EnsureSuccessStatusCode(); // Throw on error code
+
+                ClassDto selectClass = await response.Content.ReadAsAsync<ClassDto>();
+
+                HttpResponseMessage studioResponse = await client.GetAsync("StudioData/ListStudios");
+                studioResponse.EnsureSuccessStatusCode(); // Throw on error code
+
+                IEnumerable<StudioDto> studios = await studioResponse.Content.ReadAsAsync<IEnumerable<StudioDto>>();
+
+                ViewBag.Studios = studios; // Pass studios to the view
+                return View(selectClass);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error fetching class for edit: {ex.Message}");
+                return RedirectToAction("Error");
+            }
+        }
+
+        // POST: DanceClass/Update/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Update(int id, ClassDto updatedClass)
+        {
+            try
+            {
+                string url = $"DanceClassData/UpdateClass/{id}";
+                string jsonpayload = jss.Serialize(updatedClass);
+
+                HttpContent content = new StringContent(jsonpayload, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                response.EnsureSuccessStatusCode(); // Throw on error code
+
+                return RedirectToAction("List");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error updating class: {ex.Message}");
+                return RedirectToAction("Error");
+            }
+        }
+
+        // GET: DanceClass/Delete/5
+        public async Task<ActionResult> DeleteClass(int id)
+        {
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync($"DanceClassData/FindClass/{id}");
+                response.EnsureSuccessStatusCode(); // Throw on error code
+
+                ClassDto selectClass = await response.Content.ReadAsAsync<ClassDto>();
+                return View(selectClass);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error fetching class for deletion: {ex.Message}");
+                return RedirectToAction("Error");
+            }
+        }
+
+        // POST: DanceClass/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Delete(int id)
+        {
+            try
+            {
+                HttpResponseMessage response = await client.PostAsync($"DanceClassData/DeleteClass/{id}", null);
+                response.EnsureSuccessStatusCode(); // Throw on error code
+
+                return RedirectToAction("List");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error deleting class: {ex.Message}");
+                return RedirectToAction("Error");
+            }
+        }
+
+        // GET: DanceClass/Error
         public ActionResult Error()
         {
             return View();
         }
-
-        // GET: Studioclass/Add
-        public ActionResult Add()
-        {
-            // objective: communicate with our Studio data api to retrieve a list of studios
-            // curl https://localhost:44384/api/studiodata/liststudios
-
-            string url = "studiodata/liststudios";
-
-            HttpResponseMessage response = client.GetAsync(url).Result;
-
-            IEnumerable<StudioDto> studios = response.Content.ReadAsAsync<IEnumerable<StudioDto>>().Result;
-
-            return View(studios);
-        }
-
-        // POST: Studioclass/Create
-        [HttpPost]
-        public ActionResult Create(Class Class)
-        {
-            Debug.WriteLine("the class json load is : ");
-            // Debug.WriteLine(class.className);
-
-            // objective: add a new class into our system using the API
-            // curl -H "Content-Type:application/json" -d @class.json https://localhost:44384/api/danceclassData/add
-
-            string url = "classdata/addclass";
-            string jsonpayload = jss.Serialize(Class);
-
-            Debug.WriteLine(jsonpayload);
-
-            HttpContent content = new StringContent(jsonpayload);
-            content.Headers.ContentType.MediaType = "application/json";
-
-            HttpResponseMessage response = client.PostAsync(url, content).Result;
-            if (response.IsSuccessStatusCode)
-            {
-                return RedirectToAction("List");
-            }
-            else
-            {
-                return RedirectToAction("Error");
-            }
-
-        }
-
-        // GET: Studioclass/Edit/2
-        public ActionResult Edit(int id)
-        {
-            // Get Particular class information
-
-            // objective: communicate with our class data api to retrieve one class
-            // curl https://localhost:44384/api/danceclassdata/findclass/{id}
-
-            string url = "classdata/findclass/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;
-
-            ClassDto selectClass = response.Content.ReadAsAsync<ClassDto>().Result;
-
-            return View(selectClass);
-            ;
-        }
-
-        // POST: Studioclass/Update/2
-        [HttpPost]
-        public ActionResult Update(int id, Class classes)
-        {
-            try
-            {
-                Debug.WriteLine("The new class information is: ");
-                Debug.WriteLine(classes.ClassName);
-                Debug.WriteLine(classes.Instructor);
-                Debug.WriteLine(classes.Schedule);
-                Debug.WriteLine(classes.Duration);
-                Debug.WriteLine(classes.Price);
-                Debug.WriteLine(classes.Status);
-                Debug.WriteLine(classes.StudioID);
-
-                // serialize update classdata into JSON
-                // Send the request to the API
-                // POST: api/danceclassData/Updateclass/{id}
-                // Header : Content-Type: application/json
-
-                string url = "danceclassdata/updateclass/" + id;
-                string jsonpayload = jss.Serialize(classes);
-                Debug.WriteLine(jsonpayload);
-
-                HttpContent content = new StringContent(jsonpayload);
-                content.Headers.ContentType.MediaType = "application/json";
-
-                HttpResponseMessage response = client.PostAsync(url, content).Result;
-                return RedirectToAction("List");
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                return View();
-            }
-        }
-
-        // GET: Studioclass/Deleteclass/2
-        public ActionResult DeleteClass(int id)
-        {
-            // Get Particular class information
-
-            // objective: communicate with our class data api to retrieve one class
-            // curl https://localhost:44384/api/danceclassdata/findclass/{id}
-
-            string url = "classdata/findclass/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;
-
-            ClassDto selectClass = response.Content.ReadAsAsync<ClassDto>().Result;
-
-            return View(selectClass);
-        }
-
-        // POST: Danceclass/Delete/2
-        [HttpPost]
-        public ActionResult Delete(int id)
-        {
-            try
-            {
-                string url = "danceclassdata/deleteclass/" + id;
-                HttpContent content = new StringContent("");
-                content.Headers.ContentType.MediaType = "application/json";
-                HttpResponseMessage response = client.PostAsync(url, content).Result;
-                if (response.IsSuccessStatusCode)
-                {
-                    return RedirectToAction("List");
-                }
-                else
-                {
-                    return RedirectToAction("Error");
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                return View();
-            }
-        }
-
     }
 }

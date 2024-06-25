@@ -6,14 +6,14 @@ namespace Passion_Project.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class Initial : IMigrationMetadata
+    [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
+    public sealed partial class Studio : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Studio));
         
         string IMigrationMetadata.Id
         {
-            get { return "202406101724583_Initial"; }
+            get { return "202406241552292_Studio"; }
         }
         
         string IMigrationMetadata.Source

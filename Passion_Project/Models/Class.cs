@@ -20,7 +20,7 @@ namespace Passion_Project.Models
         [ForeignKey("Studios")]
         public int StudioID { get; set; }
         public virtual Studio Studios { get; set; }
-        public string StudioName { get; set; }
+        public string Name { get; set; }
         public string ClassName { get; set; }
         public string Instructor { get; set; }
         public DateTime Schedule { get; set; }
@@ -34,7 +34,7 @@ namespace Passion_Project.Models
         public int ClassID { get; set; }
         public int StudioID { get; set; }
         public virtual Studio Studios { get; set; }
-        public string StudioName { get; set; }
+        public string Name { get; set; }
         public string ClassName { get; set; }
         public string Instructor { get; set; }
         public DateTime Schedule { get; set; }

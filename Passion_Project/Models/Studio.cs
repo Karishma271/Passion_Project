@@ -26,6 +26,8 @@ namespace Passion_Project.Models
         public string Location { get; set; }
         public int Capacity { get; set; }
         public string Facilities { get; set; }
-    
-}
+        // Navigation property for classes associated with this studio
+        
+
+    }
 }

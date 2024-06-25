@@ -1,28 +1,107 @@
-﻿@model  Passion_Project.Models.BookingDto
+﻿@model Passion_Project.Models.BookingDto
 
 @{
-    ViewBag.Title = "ViewBooking";
+    ViewBag.Title = "View Booking";
 }
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col">
-            <h2 class="text-muted">Booking Details</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f8ff; /* Light blue background */
+            color: #333; /* Dark gray text */
+        }
+
+        .view-container {
+            background: #ffffff; /* White background */
+            border-radius: 10px; /* Rounded corners */
+            padding: 20px; /* Padding inside container */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+            margin-top: 50px; /* Adjusted margin for spacing */
+        }
+
+        h2 {
+            color: #ff4081; /* Pink font color */
+            font-weight: bold; /* Bold text */
+            margin-bottom: 20px; /* Bottom margin */
+        }
+
+        .btn-outline-secondary {
+            color: #ff4081; /* Pink text */
+            border-color: #ff4081; /* Pink border */
+            border-radius: 50px; /* Rounded button */
+            font-weight: bold; /* Bold text */
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #ff4081; /* Darker pink on hover */
+            color: white; /* White text on hover */
+        }
+
+        .card {
+            border: none; /* Remove card border */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+            margin-top: 20px; /* Adjusted margin for spacing */
+        }
+
+        .card-body {
+            background: #ffffff; /* White background */
+            border-radius: 10px; /* Rounded corners */
+            padding: 20px; /* Padding inside card body */
+        }
+
+        .card-title {
+            color: #ff4081; /* Pink font color */
+            font-weight: bold; /* Bold text */
+            margin-bottom: 20px; /* Bottom margin */
+        }
+
+        .list-group-item {
+            border: none; /* Remove list group item border */
+            padding: 15px; /* Padding for list group items */
+            font-size: 1.1rem; /* Larger font size */
+        }
+
+        .list-group-item strong {
+            color: #ff4081; /* Pink color for strong elements */
+            font-weight: bold; /* Bold text */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container view-container">
+        <div class="row">
+            <div class="col">
+                <h2 class="text-muted">Booking Details</h2>
+            </div>
+            <div class="col-auto">
+                <a href="/StudioBooking/bookingList" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back To Bookings</a>
+            </div>
         </div>
-        <div class="col-auto">
-            <a href="/StudioBooking/bookingList" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back To Bookings</a>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title text-muted">Class Reserved by @Model.Username</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Class Name: </strong> @Model.ClassName</li>
+                    <li class="list-group-item"><strong>Booking Date: </strong> @Model.BookingDate.ToString("MMMM dd, yyyy HH:mm:ss")</li>
+                    <li class="list-group-item"><strong>Class Date: </strong> @Model.ClassDate.ToString("MMMM dd, yyyy HH:mm:ss")</li>
+                    <li class="list-group-item"><strong>Status: </strong>@Model.Status</li>
+                </ul>
+            </div>
         </div>
     </div>
 
-    <div class="card mt-4">
-        <div class="card-body">
-            <h5 class="card-title text-muted">Class Reserved by @Model.Username</h5>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><strong>ClassName: </strong> @Model.ClassName</li>
-                <li class="list-group-item"><strong>BookingDate: </strong> @Model.BookingDate.ToString("MMMM dd, yyyy") @Model.BookingDate.ToString("HH:mm:ss")</li>
-                <li class="list-group-item"><strong>ClassDate: </strong> @Model.ClassDate.ToString("MMMM dd, yyyy") @Model.ClassDate.ToString("HH:mm:ss")</li>
-                <li class="list-group-item"><strong>Status: </strong>@Model.Status</li>
-            </ul>
-        </div>
-    </div>
-</div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

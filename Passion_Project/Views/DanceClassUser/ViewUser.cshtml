@@ -4,24 +4,93 @@
     ViewBag.Title = "View User";
 }
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col">
-            <h2 class="text-muted">User Details</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f8ff; /* Light blue background */
+            color: #333; /* Dark gray text */
+            padding-top: 20px; /* Add padding to the top of the body */
+        }
+
+        .view-container {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #ff4081;
+            font-weight: bold;
+        }
+
+        .btn-back {
+            color: #fff; /* White text */
+            background-color: #28a745; /* Green background */
+            border-color: #28a745; /* Green border */
+            border-radius: 50px; /* Rounded button */
+            font-weight: bold;
+        }
+
+            .btn-back:hover {
+                background-color: #218838; /* Darker green on hover */
+            }
+
+        .card {
+            border: none; /* Remove card border */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+        }
+
+        .card-body {
+            padding: 20px; /* Add padding inside card body */
+        }
+
+        .list-group-item {
+            border: none; /* Remove list group item border */
+            padding: 10px 0; /* Adjust padding for list group items */
+
+        }
+
+            .list-group-item strong {
+                font-weight: bold;
+                color: #28a745; /* Darken text color for strong elements */
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container mt-5 view-container">
+        <div class="row">
+            <div class="col">
+                <h2 class="text-muted">User Details</h2>
+            </div>
+            <div class="col-auto">
+                <a href="/DanceClassUser/UserList" class="btn btn-back"><i class="bi bi-arrow-left"></i> Back To Users</a>
+            </div>
         </div>
-        <div class="col-auto">
-            <a href="/DanceClassUser/UserLists" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back To Users</a>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>User ID: </strong> @Model.UserID</li>
+                    <li class="list-group-item"><strong>Username: </strong> @Model.Username</li>
+                    <li class="list-group-item"><strong>Email: </strong> @Model.Email</li>
+                    <li class="list-group-item"><strong>Password: </strong> @Model.Password</li>
+                </ul>
+            </div>
         </div>
     </div>
 
-    <div class="card mt-4">
-        <div class="card-body">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><strong>User ID: </strong> @Model.UserID</li>
-                <li class="list-group-item"><strong>Username: </strong> @Model.Username</li>
-                <li class="list-group-item"><strong>Email: </strong> @Model.Email</li>
-                <li class="list-group-item"><strong>Password: </strong> @Model.Password</li>
-            </ul>
-        </div>
-    </div>
-</div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

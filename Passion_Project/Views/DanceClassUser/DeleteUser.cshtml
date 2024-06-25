@@ -4,21 +4,84 @@
     ViewBag.Title = "Delete User";
 }
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col">
-            <h2 class="text-center">Are you sure you want to delete the user <strong>@Model.Username</strong>?</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+
+        .delete-container {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        h2 {
+            color: #dc3545; /* Red color for emphasis */
+            font-weight: bold;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            border-radius: 50px;
+            font-weight: bold;
+        }
+
+            .btn-danger:hover {
+                background-color: #c82333; /* Darker shade on hover */
+                border-color: #bd2130; /* Darker shade on hover */
+            }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            border-radius: 50px;
+            font-weight: bold;
+        }
+
+            .btn-secondary:hover {
+                background-color: #5a6268; /* Darker shade on hover */
+                border-color: #545b62; /* Darker shade on hover */
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container mt-5 delete-container">
+        <div class="row">
+            <div class="col">
+                <h2 class="text-center">Are you sure you want to delete the user <strong>@Model.Username</strong>?</h2>
+            </div>
         </div>
+
+        @using (Html.BeginForm("DeleteUserConfirmed", "DanceClassUser", new { id = Model.UserID }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="mt-5 d-flex align-items-center justify-content-end gap-3">
+                <div>
+                    <button type="submit" class="btn btn-danger btn-lg btn-block">Delete</button>
+                </div>
+                <div>
+                    <a href="@Url.Action("UserList", "DanceClassUser")" class="btn btn-secondary btn-lg btn-block">Cancel</a>
+                </div>
+            </div>
+        }
     </div>
 
-    <form method="POST" action="/DanceClassUser/Delete/@Model.UserID">
-        <div class="mt-3 d-flex align-items-center justify-content-end gap-2">
-            <div>
-                <button type="submit" class="btn btn-danger btn-lg btn-block">Delete</button>
-            </div>
-            <div>
-                <a href="/DanceClassUser/UserList" class="btn btn-secondary btn-lg btn-block">Cancel</a>
-            </div>
-        </div>
-    </form>
-</div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

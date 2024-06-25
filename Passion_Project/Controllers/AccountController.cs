@@ -10,8 +10,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Passion_Project.Models;
 
-
 namespace Passion_Project.Controllers
+
 {
     [Authorize]
     public class AccountController : Controller

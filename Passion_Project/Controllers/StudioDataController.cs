@@ -1,35 +1,39 @@
 ﻿using Passion_Project.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace Passion_Project.Controllers
 {
     public class StudioDataController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/StudioData/ListStudios
+        /// <summary>
+        /// Retrieves a list of all studios.
+        /// </summary>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// CONTENT: All studios in the database, including their details such as ID, name, location, capacity, and facilities.
+        /// </returns>
         [HttpGet]
         [Route("api/StudioData/ListStudios")]
         public IEnumerable<StudioDto> ListStudios()
         {
-            List<Studio> Studios = db.Studio.ToList();
-            List<StudioDto> StudioDtos = new List<StudioDto>();
+            // Retrieve list of studios from database
+            List<Studio> studios = db.Studios.ToList();
 
-            Studios.ForEach(Studio => StudioDtos.Add(new StudioDto()
+            // Convert each Studio object to StudioDto
+            List<StudioDto> studioDtos = studios.Select(s => new StudioDto
             {
-               StudioID = Studio.StudioID,
-                Name = Studio.Name,
-                Location = Studio.Location,
-                Capacity = Studio.Capacity,
-                Facilities = Studio.Facilities
-            }));
+                StudioID = s.StudioID,
+                Name = s.Name,
+                Location = s.Location,
+                Capacity = s.Capacity,
+                Facilities = s.Facilities
+            }).ToList();
 
-            return StudioDtos;
+            return studioDtos;
         }
     }
 }

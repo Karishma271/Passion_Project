@@ -4,27 +4,103 @@
     ViewBag.Title = "Class Details";
 }
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col">
-            <h2 class="text-muted">Class Details: @Model.ClassName</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f8ff; /* Light blue background */
+            color: #333; /* Dark gray text */
+            padding-top: 20px; /* Add padding to the top of the body */
+        }
+
+        .container {
+            max-width: 800px; /* Limit container width for better readability */
+        }
+
+        h2 {
+            color: #1e90ff; /* Dark blue font color */
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .btn-outline-secondary {
+            color: #1e90ff; /* Dark blue text */
+            border-color: #1e90ff; /* Dark blue border */
+            border-radius: 50px; /* Rounded button */
+            font-weight: bold;
+        }
+
+            .btn-outline-secondary:hover {
+                background-color: #1e90ff; /* Dark blue background on hover */
+                color: white; /* White text on hover */
+            }
+
+        .card {
+            border: none; /* Remove card border */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+            margin-top: 20px; /* Adjusted margin for spacing */
+        }
+
+        .card-body {
+            background: #ffffff; /* White background */
+            border-radius: 10px; /* Rounded corners */
+            padding: 20px; /* Padding inside card body */
+        }
+
+        .card-title {
+            color: #1e90ff; /* Dark blue font color */
+            font-weight: bold; /* Bold text */
+            margin-bottom: 20px; /* Bottom margin */
+        }
+
+        .list-group-item {
+            border: none; /* Remove list group item border */
+            padding: 15px; /* Padding for list group items */
+            font-size: 1.1rem; /* Larger font size */
+        }
+
+            .list-group-item strong {
+                color: #1e90ff; /* Dark blue color for strong elements */
+                font-weight: bold; /* Bold text */
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col">
+                <h2 class="text-muted">Class Details: @Model.ClassName</h2>
+            </div>
+            <div class="col-auto">
+                <a href="/DanceClass/List" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back To Classes</a>
+            </div>
         </div>
-        <div class="col-auto">
-            <a href="/StudioClass/List" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back To Classs</a>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title text-muted">Class Information</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Studio:</strong> @Model.Name</li>
+                    <li class="list-group-item"><strong>Class:</strong> @Model.ClassName</li>
+                    <li class="list-group-item"><strong>Schedule:</strong> @Model.Schedule</li>
+                    <li class="list-group-item"><strong>Duration:</strong> @Model.Duration</li>
+                    <li class="list-group-item"><strong>Price:</strong> $ @Model.Price /per Duration</li>
+                    <li class="list-group-item"><strong>Status:</strong> @Model.Status</li>
+                </ul>
+            </div>
         </div>
     </div>
 
-    <div class="card mt-4">
-        <div class="card-body">
-            <h5 class="card-title text-muted">Class Information</h5>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><strong>Studio:</strong> @Model.StudioName</li>
-                <li class="list-group-item"><strong>Class:</strong> @Model.ClassName</li>
-                <li class="list-group-item"><strong>Schedule:</strong> @Model.Schedule/li>
-                <li class="list-group-item"><strong>Duration:</strong> @Model.Duration</li>
-                <li class="list-group-item"><strong>Price:</strong> $ @Model.Price /per Duration</li>
-                <li class="list-group-item"><strong>Status:</strong> @Model.Status</li>
-            </ul>
-        </div>
-    </div>
-</div>a
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

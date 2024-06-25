@@ -1,204 +1,266 @@
-﻿using Passion_Project.Models;
-using Passion_Project.Models.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
+using Passion_Project.Models;
+using Passion_Project.Models.ViewModels;
+using System.Net;
 using System.Net.Http;
-using System.Web;
+using System.Text;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 
 namespace Passion_Project.Controllers
 {
     public class StudioBookingController : Controller
     {
         private static readonly HttpClient client;
-        private JavaScriptSerializer jss = new JavaScriptSerializer();
 
         static StudioBookingController()
         {
-            client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:44384/api/");
+            // Initialize HttpClient with base URL for API requests
+            client = new HttpClient
+            {
+                BaseAddress = new Uri("https://localhost:44301/api/") // Adjust base URL to match your API address
+            };
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        // GET:
-        //
-        // booking/BookingList
+        // GET: StudioBooking/BookingList
         public ActionResult BookingList()
         {
-            // objective: communicate with our booking data api to retrieve a list of bookings
-            // curl https://localhost:44384/api/BookingData/ListBookings
+            try
+            {
+                HttpResponseMessage response = client.GetAsync("BookingData/ListBookings").Result;
 
-            string url = "BookingData/ListBookings";
-            HttpResponseMessage response = client.GetAsync(url).Result;
-
-            IEnumerable<BookingDto> bookings = response.Content.ReadAsAsync<IEnumerable<BookingDto>>().Result;
-
-            return View(bookings);
+                if (response.IsSuccessStatusCode)
+                {
+                    IEnumerable<BookingDto> bookings = response.Content.ReadAsAsync<IEnumerable<BookingDto>>().Result;
+                    return View(bookings);
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Failed to retrieve bookings from the API.";
+                    return View("Error");
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = $"An unexpected error occurred: {ex.Message}";
+                return View("Error");
+            }
         }
 
-        // GET: Studiobooking/Viewbooking/2
-        public ActionResult Viewbooking(int id)
+        // GET: StudioBooking/ViewBooking/5
+        public ActionResult ViewBooking(int id)
         {
-            // objective: communicate with our booking data api to retrieve one booking
-            // curl https://localhost:44384/api/studiodata/findbooking/{id}
+            try
+            {
+                HttpResponseMessage response = client.GetAsync($"BookingData/FindBooking/{id}").Result;
 
-            string url = "bookingdata/findbooking/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;
-            Debug.WriteLine(response.StatusCode);
-
-            BookingDto selectBooking = response.Content.ReadAsAsync<BookingDto>().Result;
-            
-            Debug.WriteLine(selectBooking);
-            Debug.WriteLine("#####Hello World!!#########");
-            return View(selectBooking);
+                if (response.IsSuccessStatusCode)
+                {
+                    BookingDto selectedBooking = response.Content.ReadAsAsync<BookingDto>().Result;
+                    return View(selectedBooking);
+                }
+                else if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return HttpNotFound();
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Failed to retrieve booking details. Please try again.";
+                    ViewBag.ErrorStackTrace = response.Content.ReadAsStringAsync().Result; // Example: Pass detailed error info
+                    return View("Error");
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = $"An unexpected error occurred: {ex.Message}";
+                ViewBag.ErrorStackTrace = ex.StackTrace; // Example: Pass detailed error info
+                return View("Error");
+            }
         }
 
-        public ActionResult Error()
-        {
-            return View();
-        }
-
-        // GET: Studiobooking/Addbooking
+        // GET: StudioBooking/AddBooking
         public ActionResult AddBooking()
         {
-            // objective: communicate with our class data api to retrieve a list of classs
-            // curl https://localhost:44384/api/classdata/listclasses
-
-            string url = "classdata/listclasses";
-            HttpResponseMessage response = client.GetAsync(url).Result;
-
-            IEnumerable<ClassDto> classes = response.Content.ReadAsAsync<IEnumerable<ClassDto>>().Result;
-
-            // objective: communicate with our user data api to retrieve a list of users
-            // curl https://localhost:44384/api/userdata/listusers
-
-            string urlUser = "userdata/listusers";
-            HttpResponseMessage responseUser = client.GetAsync(urlUser).Result;
-
-            IEnumerable<UserDto> users = responseUser.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
-
-            var viewModel = new AddBookingViewModel
-            {
-               Classes = classes,
-                Users = users
-            };
-
-            return View(viewModel);
-        }
-
-        // POST: Studiobooking/CreateBooking
-        [HttpPost]
-        public ActionResult CreateBooking(Bookings booking)
-        {
-            string url = "bookingdata/addbooking";
-            string jsonpayload = jss.Serialize(booking);
-
-            Debug.WriteLine(jsonpayload);
-
-            HttpContent content = new StringContent(jsonpayload);
-            content.Headers.ContentType.MediaType = "application/json";
-
-            HttpResponseMessage responseMessage = client.PostAsync(url,content).Result; 
-            if(responseMessage.IsSuccessStatusCode)
-            {
-                return RedirectToAction("BookingList");
-            }
-            else
-            {
-                return RedirectToAction("Error");
-            }
-        }
-
-        // GET: Studiobooking/Editbooking/3
-        public ActionResult EditBooking(int id)
-        {
-            // objective: communicate with our booking data api to retrieve one booking
-            // curl https://localhost:44384/api/studiodata/findbooking/{id}
-
-            string url = "bookingdata/findbooking/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;
-
-            BookingDto selectBooking = response.Content.ReadAsAsync<BookingDto>().Result;
-
-            return View(selectBooking);
-        }
-
-        // POST: Studiobooking/Updatebooking/3
-        [HttpPost]
-        public ActionResult UpdateBooking(int id,Bookings booking)
-        {
             try
             {
-                Debug.WriteLine("Booking Details Check: ");
-                
-                Debug.WriteLine(booking.BookingDate);
-                Debug.WriteLine(booking.ClassDate);
-                Debug.WriteLine(booking.Status);
-
-                // serialize update bookingData into JSON
-                // Send the request to the API
-                // POST: api/bookingdata/updatebooking/{id}
-                // Header : Content-Type: application/json
-
-                string url = "bookingdata/updatebooking/" + id;
-                string jsonpayoad = jss.Serialize(booking);
-                Debug.WriteLine(jsonpayoad);
-
-                HttpContent content = new StringContent(jsonpayoad);
-                content.Headers.ContentType.MediaType = "application/json";
-
-                HttpResponseMessage responseMessage = client.PostAsync(url, content).Result;
-                return RedirectToAction("BookingList");
-            }
-            catch(Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                return View();
-            }
-        }
-
-        // GET: Studiobooking/Deletebooking/3
-        public ActionResult DeleteBooking(int id)
-        {
-            // Get Particular booking information
-
-            // objective: communicate with our booking data api to retrieve one booking
-            // curl https://localhost:44384/api/studiodata/findbooking/{id}
-
-            string url = "bookingdata/findbooking/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;
-
-            BookingDto selectBooking = response.Content.ReadAsAsync<BookingDto>().Result;
-
-            return View(selectBooking);
-        }
-
-        // POST: Studiobooking/Delete/3
-        [HttpPost]
-        public ActionResult Delete(int id)
-        {
-            try
-            {
-                string url = "bookingdata/deletebooking/" + id;
-                HttpContent content = new StringContent("");
-
-                content.Headers.ContentType.MediaType = "application/json";
-                HttpResponseMessage responseMessage = client.PostAsync(url, content).Result;
-                if (responseMessage.IsSuccessStatusCode)
+                var viewModel = new AddBookingViewModel
                 {
+                    Classes = GetClassesFromApi(),
+                    Users = GetUsersFromApi()
+                };
+
+                if (viewModel.Classes == null || viewModel.Users == null)
+                {
+                    return View("Error");
+                }
+
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = $"An unexpected error occurred: {ex.Message}";
+                return View("Error");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateBooking(AddBookingViewModel viewModel)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    // Reload dropdown lists if needed
+                    viewModel.Classes = GetClassesFromApi();
+                    viewModel.Users = GetUsersFromApi();
+                    return View(viewModel);
+                }
+
+                // Prepare the Booking object to be sent to the API
+                Booking booking = new Booking
+                {
+                    ClassID = viewModel.ClassID,
+                    UserID = viewModel.UserID,
+                    BookingDate = viewModel.BookingDate,
+                    ClassDate = viewModel.ClassDate,
+                    Status = viewModel.Status
+                };
+
+                // Call the API to add the booking
+                HttpResponseMessage response = client.PostAsJsonAsync("BookingData/AddBooking", booking).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Redirect to the booking list upon success
                     return RedirectToAction("BookingList");
                 }
                 else
                 {
-                    return RedirectToAction("Error");
+                    // Handle API error response
+                    ViewBag.ErrorMessage = "Failed to create booking. Please try again later.";
+                    return View("Error");
                 }
-            }catch(Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                return View();
             }
+            catch (Exception ex)
+            {
+                // Handle unexpected exceptions
+                ViewBag.ErrorMessage = $"An unexpected error occurred: {ex.Message}";
+                return View("Error");
+            }
+        }
+        // GET: StudioBooking/EditBooking/5
+        public ActionResult EditBooking(int id)
+        {
+            HttpResponseMessage response = client.GetAsync($"BookingData/FindBooking/{id}").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                BookingDto booking = response.Content.ReadAsAsync<BookingDto>().Result;
+                return View(booking);
+            }
+            return HttpNotFound();
+        }
+
+        // POST: StudioBooking/EditBooking/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditBooking(BookingDto bookingDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(bookingDto);
+            }
+
+            HttpResponseMessage response = client.PutAsJsonAsync($"BookingData/EditBooking/{bookingDto.BookingID}", bookingDto).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("BookingList");
+            }
+
+            ModelState.AddModelError("", "Failed to update booking.");
+            return View(bookingDto);
+        }
+        // GET: StudioBooking/DeleteBooking/5
+        public ActionResult DeleteBooking(int id)
+        {
+            HttpResponseMessage response = client.GetAsync($"BookingData/FindBooking/{id}").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                BookingDto booking = response.Content.ReadAsAsync<BookingDto>().Result;
+                return View(booking);
+            }
+            return HttpNotFound();
+        }
+
+        // POST: StudioBooking/DeleteBookingConfirmed/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteBookingConfirmed(int id)
+        {
+            HttpResponseMessage response = client.DeleteAsync($"BookingData/DeleteBooking/{id}").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("BookingList");
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+        }
+
+        // Helper methods to fetch data from API
+        private IEnumerable<ClassDto> GetClassesFromApi()
+        {
+            try
+            {
+                HttpResponseMessage response = client.GetAsync("DanceClassData/ListClasses").Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<IEnumerable<ClassDto>>().Result;
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Failed to retrieve classes from the API.";
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = $"An unexpected error occurred: {ex.Message}";
+                return null;
+            }
+        }
+
+        private IEnumerable<UserDto> GetUsersFromApi()
+        {
+            try
+            {
+                HttpResponseMessage response = client.GetAsync("DanceClassUserData/ListUsers").Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Failed to retrieve users from the API.";
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = $"An unexpected error occurred: {ex.Message}";
+                return null;
+            }
+        }
+
+        // Error handling view
+        public ActionResult Error()
+        {
+            return View();
         }
     }
 }
+

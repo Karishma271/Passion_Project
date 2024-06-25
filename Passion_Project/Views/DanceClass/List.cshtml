@@ -1,48 +1,200 @@
 ﻿@model IEnumerable<Passion_Project.Models.ClassDto>
 
 @{
-    ViewBag.Title = "Classs";
+    ViewBag.Title = "Class";
 }
 
-<div class="row">
-    <div class="col">
-        <h2>Classs</h2>
-    </div>
-    <div class="col mb-3 d-flex justify-content-end">
-        <a href="/DanceClass/Add" class="btn btn-success">+ Add New Class</a>
-    </div>
-</div>
-
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Instructor</th>
-            <th>Schedule</th>
-            <th>Duration</th>
-            <th>Price</th>
-            <th>Status</th>
-            <th>Studio</th>
-            
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var Class in Model)
-        {
-            <tr>
-                <td>@Class.ClassName</td>
-                <td>@Class.Instructor</td>
-                <td>@Class.Schedule</td>
-                <td>@Class.Duration</td>
-                <td>$ @Class.Price</td>
-                <td>@Class.Status</td>
-                <td>@Class.StudioName</td>
-                <td>
-                    <a href="/StudioClass/Details/@Class.ClassID" class="btn btn-primary"><i class="bi bi-eye"></i> View</a>
-                    <a href="/StudioClass/Edit/@Class.ClassID" class="btn btn-warning"><i class="bi bi-pencil"></i> Update</a>
-                    <a href="/StudioClass/DeleteClass/@Class.ClassID" class="btn btn-danger"><i class="bi bi-trash"></i> Delete</a>
-                </td>
-            </tr>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 0;
         }
-    </tbody>
-</table>
+
+        .class-list-container {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: fit-content;
+            max-width: 1400px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        h2 {
+            color: #1e88e5; /* Dark blue color */
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            transition: background-color 0.3s, transform 0.3s;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+            .btn:hover {
+                transform: scale(1.05);
+            }
+
+        .btn-outline-secondary {
+            color: #1e88e5;
+            border-color: #1e88e5;
+        }
+
+            .btn-outline-secondary:hover {
+                background-color: #1e88e5;
+                color: white;
+            }
+
+        .btn-primary {
+            background-color: #1e88e5; /* Updated to dark blue */
+            border: none;
+        }
+
+            .btn-primary:hover {
+                background-color: #0d47a1; /* Darker blue on hover */
+            }
+
+        .btn-warning {
+            background-color: #ffca28;
+            border: none;
+        }
+
+            .btn-warning:hover {
+                background-color: #ffa000;
+            }
+
+        .btn-danger {
+            background-color: #ef5350;
+            border: none;
+        }
+
+            .btn-danger:hover {
+                background-color: #e53935;
+            }
+
+        .table {
+            width: 100%;
+            margin-top: 30px;
+            white-space: nowrap;
+        }
+
+            .table th,
+            .table td {
+                vertical-align: middle;
+                text-align: center;
+                border: 1px solid #dee2e6;
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .table thead {
+                background-color: #1e88e5;
+                color: white;
+            }
+
+            .table tbody tr:hover {
+                background-color: #f0f8ff;
+            }
+
+            .table tbody td {
+                background-color: #ffffff;
+            }
+
+            .table tbody tr:nth-child(even) td {
+                background-color: #f9f9f9;
+            }
+
+        .bi {
+            margin-right: 5px;
+        }
+
+        .add-new-class-container {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .add-new-class-button {
+            padding: 12px 24px;
+            font-weight: bold;
+            font-size: 16px;
+            border-radius: 50px;
+            background-color: #1e88e5; /* Dark blue background */
+            color: white;
+            border: none;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+            .add-new-class-button:hover {
+                background-color: #0d47a1; /* Darker blue on hover */
+                transform: scale(1.05);
+            }
+    </style>
+</head>
+<body>
+
+    <div class="class-list-container">
+        <div class="row mb-4">
+            <div class="col">
+                <h2>Classes</h2>
+            </div>
+            <div class="col mb-3 d-flex justify-content-end">
+                <div class="add-new-class-container">
+                    <a href="/DanceClass/Add" class="add-new-class-button">+ Add New Class</a>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Instructor</th>
+                    <th>Schedule</th>
+                    <th>Duration (in Hours)</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Studio</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var Class in Model)
+                {
+                    <tr>
+                        <td>@Class.ClassName</td>
+                        <td>@Class.Instructor</td>
+                        <td>@Class.Schedule</td>
+                        <td>@Class.Duration</td>
+                        <td>$ @Class.Price</td>
+                        <td>@Class.Status</td>
+                        <td>@Class.Name</td>
+                        <td>
+                            <a href="/DanceClass/Details/@Class.ClassID" class="btn btn-primary"><i class="bi bi-eye"></i> View</a>
+                            <a href="/DanceClass/Edit/@Class.ClassID" class="btn btn-warning"><i class="bi bi-pencil"></i> Update</a>
+                            <a href="/DanceClass/DeleteClass/@Class.ClassID" class="btn btn-danger"><i class="bi bi-trash"></i> Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

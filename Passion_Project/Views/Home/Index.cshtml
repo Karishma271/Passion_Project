@@ -1,54 +1,126 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .card {
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 10px;
+            overflow: hidden;
+        }
 
-<main>
-    <section class="container my-5">
-        <!-- Beautiful Quote -->
-        <div class="text-center">
-            <blockquote class="blockquote">
-                <p class="mb-0" style="font-size: 2rem;">"A journey of a thousand miles begins with a single step."</p>
-                <footer class="blockquote-footer">Feel Dance Academy</footer>
-            </blockquote>
-        </div>
-    </section>
+            .card:hover {
+                transform: scale(1.05);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            }
 
-    <!-- Three Attractive Links/Buttons -->
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 border-0 shadow">
-                    <div class="card-body text-center">
-                        <h2 class="card-title">Make a booking</h2>
-                        <p class="card-text">Book your stay now and experience Professional Dance Choreography at its best.</p>
-                    </div>
-                    <div class="card-footer bg-white border-0 text-center">
-                        <a href="/StudioBooking/BookingList/" class="btn btn-primary">Reserve Now</a>
+        .btn {
+            transition: background-color 0.3s, transform 0.3s;
+            border-radius: 50px;
+        }
+
+            .btn:hover {
+                transform: scale(1.1);
+            }
+
+        /* Specific styles for the Make a Booking card */
+        .card-booking {
+            border-top: 5px solid #ff4081; /* Pink border */
+        }
+
+            .card-booking .card-title {
+                color: #ff4081; /* Pink font color */
+            }
+
+            .card-booking .btn {
+                background-color: #ff4081; /* Pink background */
+                color: white; /* White text color */
+                border-color: #ff4081; /* Pink border color */
+            }
+
+                .card-booking .btn:hover {
+                    background-color: #e00070; /* Darker pink on hover */
+                }
+
+        /* Specific styles for the Browse Classes card */
+        .card-browse {
+            border-top: 5px solid #1e88e5; /* Dark blue border */
+        }
+
+            .card-browse .card-title {
+                color: #1e88e5; /* Dark blue font color */
+            }
+
+            .card-browse .btn {
+                background-color: #1e88e5; /* Dark blue background */
+                color: white; /* White text color */
+                border-color: #1e88e5; /* Dark blue border color */
+            }
+
+                .card-browse .btn:hover {
+                    background-color: #0d47a1; /* Darker blue on hover */
+                }
+    </style>
+</head>
+<body>
+
+    <main>
+        <section class="container my-5">
+            <!-- Beautiful Quote -->
+            <div class="text-center">
+                <blockquote class="blockquote">
+                    <p class="mb-0" style="font-size: 2rem; font-style: italic; color: #343a40;">"A journey of a thousand miles begins with a single step."</p>
+                </blockquote>
+            </div>
+        </section>
+
+        <!-- Three Attractive Links/Buttons with Images -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card card-booking h-100 border-0 shadow-lg">
+                        <img src="~/image/1.jpg" class="card-img-top" alt="Make a Booking" style="height: 200px; object-fit: cover;">
+                        <div class="card-body text-center">
+                            <h2 class="card-title font-weight-bold" style="color: #ff4081;">Make a Booking</h2>
+                            <p class="card-text">Book your Seat for professional experiance.</p>
+                        </div>
+                        <div class="card-footer bg-white border-0 text-center">
+                            <a href="/StudioBooking/BookingList/" class="btn btn-primary btn-lg">Booking List</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 border-0 shadow">
-                    <div class="card-body text-center">
-                        <h2 class="card-title">View Users</h2>
-                        <p class="card-text">Explore our registered users and their profiles.</p>
-                    </div>
-                    <div class="card-footer bg-white border-0 text-center">
-                        <a href="/DanceClassUser/UserList/" class="btn btn-primary">View Users</a>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-0 shadow-lg" style="border-top: 5px solid #6fbbd3;">
+                        <img src="~/image/2.jpg" class="card-img-top" alt="View Users" style="height: 200px; object-fit: cover;">
+                        <div class="card-body text-center">
+                            <h2 class="card-title font-weight-bold text-success">View Users</h2>
+                            <p class="card-text">Explore our registered users and their profiles. Register yourself with us.</p>
+                        </div>
+                        <div class="card-footer bg-white border-0 text-center">
+                            <a href="/DanceClassUser/UserList/" class="btn btn-success btn-lg">View Users</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 border-0 shadow">
-                    <div class="card-body text-center">
-                        <h2 class="card-title">Browse Class</h2>
-                        <p class="card-text">Discover our Professional classes .</p>
-                    </div>
-                    <div class="card-footer bg-white border-0 text-center">
-                        <a href="/Danceclass/List/" class="btn btn-primary">Browse classes</a>
+                <div class="col-md-4 mb-4">
+                    <div class="card card-browse h-100 border-0 shadow-lg">
+                        <img src="~/image/3.jpg" class="card-img-top" alt="Browse Classes" style="height: 200px; object-fit: cover;">
+                        <div class="card-body text-center">
+                            <h2 class="card-title font-weight-bold">Browse Classes</h2>
+                            <p class="card-text">Discover our professional classes.</p>
+                        </div>
+                        <div class="card-footer bg-white border-0 text-center">
+                            <a href="/Danceclass/List/" class="btn btn-lg">Browse Classes</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</main>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

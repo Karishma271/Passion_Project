@@ -1,31 +1,80 @@
-﻿﻿@model IEnumerable<Passion_Project.Models.UserDto>
+﻿@model IEnumerable<Passion_Project.Models.UserDto>
 
 @{
     ViewBag.Title = "Users";
 }
 
-<div class="row">
-    <div class="col">
-        <h2>Users</h2>
-    </div>
-    <div class="col mb-3 d-flex justify-content-end">
-        <a href="/DanceClassUser/AddUser" class="btn btn-success">+ Add New User</a>
-    </div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f8ff; /* Light blue background */
+            color: #333; /* Dark gray text */
+        }
 
-<div class="row">
-    @foreach (var user in Model)
-    {
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">@user.Username</h5>
-                    <p class="card-text">@user.Email</p>
-                    <a href="/DanceClassUser/ViewUser/@user.UserID" class="btn btn-primary"><i class="bi bi-eye"></i> View</a>
-                    <a href="/DanceClassUser/EditUser/@user.UserID" class="btn btn-warning"><i class="bi bi-pencil"></i> Update</a>
-                    <a href="/DanceClassUser/DeleteUser/@user.UserID" class="btn btn-danger"><i class="bi bi-trash"></i> Delete</a>
-                </div>
+        .users-container {
+            padding-top: 20px;
+        }
+
+        .card {
+            border: none; /* Remove card border */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333; /* Darken the text color */
+        }
+
+        .card-text {
+            color: #666; /* Light gray text */
+        }
+
+        .btn-action {
+            margin-right: 5px; /* Add space between action buttons */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mt-5 users-container">
+        <div class="row">
+            <div class="col">
+                <h2>Users</h2>
+            </div>
+            <div class="col mb-3 d-flex justify-content-end">
+                <a href="@Url.Action("AddUser", "DanceClassUser")" class="btn btn-success">+ Add New User</a>
             </div>
         </div>
-    }
-</div>
+
+        <div class="row">
+            @foreach (var user in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@user.Username</h5>
+                            <p class="card-text">@user.Email</p>
+                            <a href="@Url.Action("ViewUser", "DanceClassUser", new { id = user.UserID })" class="btn btn-primary btn-action"><i class="bi bi-eye"></i> View</a>
+                            <a href="@Url.Action("EditUser", "DanceClassUser", new { id = user.UserID })" class="btn btn-warning btn-action"><i class="bi bi-pencil"></i> Update</a>
+                            <a href="@Url.Action("DeleteUser", "DanceClassUser", new { id = user.UserID })" class="btn btn-danger btn-action"><i class="bi bi-trash"></i> Delete</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -18,6 +18,7 @@ namespace Passion_Project.Models
         }
     }
 
+    // Inherits from IdentityDbContext with ApplicationUser as the user type
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
@@ -25,15 +26,23 @@ namespace Passion_Project.Models
         {
         }
 
+        // Factory method to create instances of ApplicationDbContext
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
 
-        public DbSet<Studio> Studio { get; set; }
-        public DbSet<User> User { get; set; }
-        public DbSet<Class> Class { get; set; }
-        public DbSet<Bookings> Bookings { get; set; }
+        // DbSet properties for interacting with database tables
+        public DbSet<Studio> Studios { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Class> Classes { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
 
+        // Optional: Override OnModelCreating to configure entity mappings using Fluent API
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            // Configure entity mappings here if needed
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
