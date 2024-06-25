@@ -21,8 +21,11 @@ Welcome to GrooveHub, your ultimate platform for managing dance class bookings a
 
 ## Getting Started
 
-To run this project locally, follow these steps:
-
 1. **Clone this repository:**
    ```bash
+https://github.com/Karishma271/Passion_Project.git
+
+To run this project locally.
+
+
    
